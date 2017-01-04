@@ -42,7 +42,7 @@
 
 				<div class="checkbox" ng-repeat="person in people">
 					<label>
-						<input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ person.name }}
+						<input type="checkbox" ng-click="deletePerson(person._id)"> {{ person.name }}, {{ person.email }}
 					</label>
 				</div>
 
@@ -53,7 +53,7 @@
 			</div>
 		</div>
 
-		<!-- FORM TO CREATE TODOS -->
+		<!-- form to enter people -->
 		<div id="todo-form" class="row">
 			<div class="col-sm-8 col-sm-offset-2 text-center">
 				<form>

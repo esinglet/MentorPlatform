@@ -25,26 +25,22 @@ angular.module('peopleController', [])
 
 				// call the create function from our service (returns a promise object)
 				people.create($scope.formData)
-
-					// if successful creation, call our get function to get all the new todos
 					.success(function(data) {
 						$scope.loading = false;
-						$scope.formData = {}; // clear the form so our user is ready to enter another
-						$scope.todos = data; // assign our new list of todos
+						$scope.formData = {}; // clear the form
+						$scope.people = data;
 					});
 			}
 		};
 
 		// DELETE ==================================================================
-		// delete a todo after checking it
-		$scope.deleteTodo = function(id) {
+		$scope.deletePerson = function(id) {
 			$scope.loading = true;
 
 			people.delete(id)
-				// if successful creation, call our get function to get all the new todos
 				.success(function(data) {
 					$scope.loading = false;
-					$scope.todos = data; // assign our new list of todos
+					$scope.people = data;
 				});
 		};
 	}]);
