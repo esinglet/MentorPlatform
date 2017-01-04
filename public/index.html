@@ -3,6 +3,7 @@
 <!-- ASSIGN OUR ANGULAR MODULE -->
 <html ng-app="mentorApp">
 <head>
+
 	<!-- META -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
@@ -15,9 +16,10 @@
 	<style>
 		html 					{ overflow-y:scroll; }
 		body 					{ padding-top:50px; }
-		#todo-list 				{ margin-bottom:30px; }
-		#todo-form 	 			{ margin-bottom:50px; }
+		#person-list 				{ margin-bottom:30px; }
+		#person-form 	 			{ margin-bottom:50px; }
 	</style>
+
 
 	<!-- SPELLS -->
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
@@ -37,8 +39,7 @@
 		</div>
 		<!-- person list -->
 		<div id="person-list" class="row">
-			<div class="col-sm-4 col-sm-offset-4">
-
+			<div class="col-xs-4 ">
 
 				<div class="checkbox" ng-repeat="person in people">
 					<label>
@@ -53,8 +54,23 @@
 			</div>
 		</div>
 
+		<!-- layout for columns. we'll set up 2 ng-repeats for mentors/ mentees-->
+		<div style="display: flex">
+			<div>AAA</div>
+			<div>BBB</div>
+		</div>
+
+		<div style="display: flex">
+			<div class="text">First item in row</div>
+			<div class="column">
+				<div class ="text-right">Second item in row</div>
+				<div class ="text">Second item in row</div>
+				<div class ="text">Second item in row</div>
+			</div>
+		</div>
+
 		<!-- form to enter people -->
-		<div id="todo-form" class="row">
+		<div id="person-form" class="row">
 			<div class="col-sm-8 col-sm-offset-2 text-center">
 				<form>
 					<div class="form-group">
