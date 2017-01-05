@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "mocha --timeout 10000"
   },
   "dependencies": {
     "body-parser": "~1.15.2",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "chai": "*",
+    "chai-http": "^3.0.0",
     "mocha": "*"
   }
 }
