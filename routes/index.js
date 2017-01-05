@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var person = require('../models/models');
+var models = require('../models/models');
+var person = models.personModel;
+var relation = models.relationshipModel;
 
 /* GET home page. */ /*
 router.get('/', function(req, res, next) {
@@ -18,8 +20,17 @@ function getPeople(res) {
     });
 };
 
-module.exports = function (app) {
+function getRelations(res) {
+    relation.find(function (err, relations) {
+        if (err) {
+            res.send(err);
+        }
+        res.json(relations);
+    });
+};
 
+module.exports = function (app) {
+    //API ---------------------------------------------------------
     //get all people
     app.get('/api/people', function (req, res) {
         getPeople(res);
@@ -34,8 +45,6 @@ module.exports = function (app) {
         }, function (err, person) {
             if (err)
                 res.send(err);
-
-            // get and return all the todos after you create another
             getPeople(res);
         });
 
@@ -53,8 +62,39 @@ module.exports = function (app) {
         });
     });
 
+    //get relationships
+    app.get('/api/relationship', function (req, res) {
+        getRelations(res);
+    });
+
+    //create a relation
+    app.post('/api/relationship', function (req, res) {
+
+        relation.create({
+            mentor: req.body.mentor_id,
+            mentee: req.body.mentee_id
+        }, function (err, relation) {
+            if (err)
+                res.send(err);
+            getRelations(res);
+        });
+
+    });
+
+    // delete a relation
+    app.delete('/api/relationship/:relation_id', function (req, res) {
+        relation.remove({
+            _id: req.params.relation_id
+        }, function (err, relation) {
+            if (err)
+                res.send(err);
+
+            getRelations(res);
+        });
+    });
+
     // application -------------------------------------------------------------
     app.get('*', function (req, res) {
-        res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+        res.sendFile(__dirname + '/public/index.html'); // load the main page
     });
 };

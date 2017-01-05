@@ -1,12 +1,10 @@
 angular.module('peopleController', [])
 
-	// inject the Todo service factory into our controller
 	.controller('mainController', ['$scope','$http','people', function($scope, $http, people) {
 		$scope.formData = {};
 		$scope.loading = true;
 
 		// GET =====================================================================
-		// when landing on the page, get all people and show them
 		// use the service to get all the people
 		people.get()
 			.success(function(data) {
