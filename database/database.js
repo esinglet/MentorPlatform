@@ -56,14 +56,16 @@ module.exports = {
 	},
 //Update email
 	change_org_email: function(req, res, oldemail, newemail, name, password){
-		var qur = "update organizations set email='"+newemail+"' where name = '"+name+"' and email = '"+oldemail+"' and password='"+password+"'"
+		var qur = "update organizations set email='"+newemail+"' where name = '"+name+"' and email = '"+oldemail+"' and password='"+password+"'";
 		query(req, res, qur);
 	},
-//Get organization 
+//Get organization
+//-----------------------------------------vvvvvvvvvvv>>>>>Authentication here?<<<<<<<<<<vvvvvvvvv------------------------------
 	get_org: function(req, res, email, password){
 		var qur = "select * from organizations where email='"+email+"' and password = '"+password+"'";
 		query(req, res, qur);
 	}, 
+//------------------------------------------^^^^^^^^^^^^>>>>>Authentication here?<<<<<<<<<<^^^^^^^^^^---------------------------
 //Create person
 	create_person: function(req, res, fname, lname, email, org_name){
 		var qur = "insert into people (first_name, last_name, email, date_joined, active, org_id)"+
