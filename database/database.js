@@ -50,9 +50,43 @@ module.exports = {
 		query(req, res, qur);
 	},
 //Update password
-	change_password: function(req, res, oldpass, newpass, email, name){
+	change_org_password: function(req, res, oldpass, newpass, email, name){
 		var qur = "update organizations set password='"+newpass+"' where name = '"+name+"' and email = '"+email+"' and password='"+oldpass+"'";
 		query(req, res, qur);
+	},
+//Update email
+	change_org_email: function(req, res, oldemail, newemail, name, password){
+		var qur = "update organizations set email='"+newemail+"' where name = '"+name+"' and email = '"+oldemail+"' and password='"+password+"'"
+		query(req, res, qur);
+	},
+//Get organization 
+	get_org: function(req, res, email, password){
+		var qur = "select * from organizations where email='"+email+"' and password = '"+password+"'";
+		query(req, res, qur);
+	}, 
+//Create person
+	create_person: function(req, res, fname, lname, email, org_name){
+		var qur = "insert into people (first_name, last_name, email, date_joined, active, org_id)"+
+			"values('"+fname+"', '"+lname+"', '"+email+"', now(), b'1', (select org_id from organizations where name = '"+org_name+"'))";
+		query(req, res, qur);
+	},
+// Update person
+// Field = {fname, lname, email, active}
+	update_person: function(req, res, field, value, id){
+		var fields = {"fname":"first_name", "lname":"last_name", "email":"email", "active":"active"};
+		var f = fields[field];
+		if(!f){
+			//Invalid field
+			console.log("Invalid field.");
+		} else {
+			if(f == 'active'){
+				//No quotes around value
+				var qur = "update people set "+fields[field]+"= "+value+" where person_id ="+id;
+			} else{
+				var qur = "update people set "+fields[field]+"= '"+value+"' where person_id ="+id;
+			}
+			query(req, res, qur);
+		}
 	}
 
 };
