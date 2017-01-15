@@ -19,7 +19,7 @@ var pool      =    mysql2.createPool({
 function query(req, res, qur){
 	pool.getConnection(function(err, con){
 		if(err) {
-			console.log(err.code);
+			console.log(err.message);
 			return;
 		}
 
@@ -89,7 +89,103 @@ module.exports = {
 			}
 			query(req, res, qur);
 		}
-	}
+	},
 
+//Delete person
+//UNTESTED
+	delete_person: function(req, res, id){
+		var qur = "delete from people where person_id ="+id;
+		query(req, res, qur);
+	},
+
+//UNTESTED
+//Get Person
+	get_person: function(req, res, id){
+		var que = "select * from people where person_id = "+id;
+		query(req, res, qur);
+	},
+
+//UNTESTED
+//Create relationship
+	create_relationship: function(req, res, mentor_id, mentee_id){
+		var que = "insert into relationships (mentor, mentee, date_created) values("+mentor_id+","+mentee_id+", now())";
+		query(req, res, qur);
+	},
+//UNTESTED
+//Get relationship
+	get_relationship: function(req, res, rel_id){
+		var que = "select * from relationships where rel_id = "+rel_id;
+		query(req, res, qur);
+	}, 
+//UNTESTED
+//Del Relationship
+	delete_relationship(req, res, id){
+		var que = "delete from relationships where rel_id =" +rel_id;
+		query(req, res, que);
+	},
+
+//Untested
+//MEETINGS
+	create_meeting: function(req, res, people){
+		pool.getConnection(function(err, con){
+			if(err){
+				console.log(err.message);
+				return;
+			}
+			con.beginTransaction(function(err){
+				if(err){
+					console.log(err.message);
+					return;
+				}
+				con.query("insert into meetings (date_created) values(now())", function(err, rows){
+					if(err){
+						con.rollback(function() {
+							con.release();
+							console.log(err.message);
+            				throw err;
+          				});
+					}
+					var meetingId = rows.insertId;
+					console.log(meetingId);
+					con.prepare("insert into meeting_persons (person_id, meeting_id, mentor, survey_status) values(?, ?, ?, 0)", function(err, statement){
+						if(err){
+							con.rollback(function() {
+								con.release();
+								console.log(err.message);
+            					throw err;
+          					});
+						}
+						for (person in people){
+							console.log((people[person].mentor?"b'1'":"b'0'"));
+							var mentor = people[person].mentor
+							statement.execute([people[person].id, meetingId, mentor], function(err, rows){
+								if(err){
+									statement.close();
+									con.rollback(function() {
+										con.release();
+										console.log(err.message);
+            							throw err;
+          							});
+								}
+
+							});
+						}
+						statement.close();
+						con.commit(function(err){
+							if(err){	
+								con.rollback(function() {
+           							con.release();
+									console.log(err.message);
+            						throw err;
+          						});
+							}
+							con.release();
+							console.log("Commited!@");
+						});
+					});
+				});
+			});
+		});
+	}
 };
 
