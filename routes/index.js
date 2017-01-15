@@ -29,8 +29,8 @@ function getRelations(res) {
 module.exports = function (app) {
     //API ---------------------------------------------------------
     //get all people
-    app.get('/api/people', function (req, res) {
-        db.get_people(req, res, "Kramerica Inc.");
+    app.get('/api/people/:org_name', function (req, res) {
+        db.get_people(req, res, decodeURIComponent(req.params.org_name));
     });
 
     //create a person
