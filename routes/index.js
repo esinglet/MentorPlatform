@@ -1,8 +1,5 @@
-var express = require('express');
-var router = express.Router();
-var models = require('../models/models');
-var person = models.personModel;
-var relation = models.relationshipModel;
+
+var db = require("../database/database")
 
 /* GET home page. */ /*
 router.get('/', function(req, res, next) {
@@ -33,7 +30,7 @@ module.exports = function (app) {
     //API ---------------------------------------------------------
     //get all people
     app.get('/api/people', function (req, res) {
-        getPeople(res);
+        db.get_people(req, res, "Kramerica Inc.");
     });
 
     //create a person

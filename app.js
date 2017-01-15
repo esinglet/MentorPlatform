@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 //var mongoose = require('mongoose'); 				// mongoose for mongodb
 
 //var index = require('./routes/index');
-var database = require('./config/database'); 			// load the database config
+
 
 var app = express();
 

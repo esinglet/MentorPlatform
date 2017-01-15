@@ -19,20 +19,20 @@ var pool      =    mysql2.createPool({
 function query(req, res, qur){
 	pool.getConnection(function(err, con){
 		if(err) {
-			console.log(err.message);
+			res.json(err.message);
 			return;
 		}
 
 		con.query(qur, function(err, rows){
 			con.release();
 			if(!err){
-				console.log(rows);
+				res.json(rows);
 				return;
 			}
 		});
 
 		con.on('error', function(err) {      
-              console.log({"code" : 101, "status" : "Error in connection database"});
+              res.json({"code" : 101, "status" : "Error in connection database"});
               return;
         });
 	});
@@ -180,12 +180,12 @@ module.exports = {
           						});
 							}
 							con.release();
-							console.log("Commited!@");
+							console.log("Commited!");
 						});
 					});
 				});
 			});
 		});
-	}
+	}, 
 };
 
