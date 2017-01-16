@@ -34,47 +34,23 @@ module.exports = function (app) {
     });
 
     //create a person
-    app.post('/api/people', function (req, res) {
-
-        person.create({
-            name: req.body.name,
-            email: req.body.email
-        }, function (err, person) {
-            if (err)
-                res.send(err);
-            getPeople(res);
-        });
-
+    app.post('/api/people/:fname/:lname/:email/:orgname', function (req, res) {
+        //http://localhost:3000/api/people/Evan/Singleton/test%40test.com/Kramerica%20Inc.
+        db.create_person(req, res, req.params.fname, req.params.lname, decodeURIComponent(req.params.email), decodeURIComponent(req.params.orgname));
     });
 
     // delete a person
     app.delete('/api/people/:person_id', function (req, res) {
-        person.remove({
-            _id: req.params.person_id
-        }, function (err, person) {
-            if (err)
-                res.send(err);
-
-            getPeople(res);
-        });
+        db.delete_person(req, res, req.params.person_id);
     });
 
     //get relationships
-    app.get('/api/relationship', function (req, res) {
-        getRelations(res);
+    app.get('/api/rs/:rel_id', function (req, res) {
+        db.get_relationships(req, res, req.params.rel_id);
     });
 
     //create a relation
     app.post('/api/relationship', function (req, res) {
-
-        relation.create({
-            mentor: req.body.mentor_id,
-            mentee: req.body.mentee_id
-        }, function (err, relation) {
-            if (err)
-                res.send(err);
-            getRelations(res);
-        });
 
     });
 

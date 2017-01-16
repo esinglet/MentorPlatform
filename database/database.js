@@ -38,6 +38,29 @@ function query(req, res, qur){
 	});
 }
 
+//Debug
+function queryD(req, res, qur){
+	pool.getConnection(function(err, con){
+		if(err) {
+			console.log(err.message);
+			return;
+		}
+
+		con.query(qur, function(err, rows){
+			con.release();
+			if(!err){
+				console.log(rows);
+				return;
+			}
+		});
+
+		con.on('error', function(err) {      
+              console.log({"code" : 101, "status" : "Error in connection database"});
+              return;
+        });
+	});
+}
+
 module.exports = {
 //Get all people in organization
 	get_people: function(req, res, org_name) {
@@ -105,17 +128,16 @@ module.exports = {
 		query(req, res, qur);
 	},
 
-//UNTESTED
 //Create relationship
 	create_relationship: function(req, res, mentor_id, mentee_id){
-		var que = "insert into relationships (mentor, mentee, date_created) values("+mentor_id+","+mentee_id+", now())";
+		var qur = "insert into relationships (mentor, mentee, date_created) values("+mentor_id+","+mentee_id+", now())";
 		query(req, res, qur);
 	},
 //UNTESTED
 //Get relationship
 	get_relationship: function(req, res, rel_id){
 		var que = "select * from relationships where rel_id = "+rel_id;
-		query(req, res, qur);
+		queryD(req, res, qur);
 	}, 
 //UNTESTED
 //Del Relationship
@@ -187,5 +209,9 @@ module.exports = {
 			});
 		});
 	}, 
+	get_relationships: function(req, res, org_id){
+		var qur = "select * from relationships join people on relationships.mentor = people.person_id where org_id = "+org_id;
+		query(req, res, qur);
+	}
 };
 
