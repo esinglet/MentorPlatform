@@ -6,8 +6,8 @@ require('JSON');
 
 var pool      =    mysql2.createPool({
     connectionLimit : 100, 
-    host     : 'localhost',
-    port     : '3036',
+    host     : 'mentor-dev.c3aiprsfywzf.us-west-2.rds.amazonaws.com',
+    port     : '3306',
     user     : 'root',
     password : 'password',
     database : 'mentorshipapp',
@@ -39,7 +39,7 @@ function query(req, res, qur){
 }
 
 //Debug
-function queryD(req, res, qur){
+function queryD(req, res, qur){ 
 	pool.getConnection(function(err, con){
 		if(err) {
 			console.log(err.message);
@@ -178,7 +178,6 @@ module.exports = {
           					});
 						}
 						for (person in people){
-							console.log((people[person].mentor?"b'1'":"b'0'"));
 							var mentor = people[person].mentor
 							statement.execute([people[person].id, meetingId, mentor], function(err, rows){
 								if(err){

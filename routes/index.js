@@ -8,24 +8,8 @@ router.get('/', function(req, res, next) {
 
 module.exports = router; */
 
-function getPeople(res) {
-    person.find(function (err, people) {
-        if (err) {
-            res.send(err);
-        }
-        res.json(people); // return all people in JSON format
-    });
-};
 
-function getRelations(res) {
-    relation.find(function (err, relations) {
-        if (err) {
-            res.send(err);
-        }
-        res.json(relations);
-    });
-};
-
+//https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
 module.exports = function (app) {
     //API ---------------------------------------------------------
     //get all people
@@ -51,7 +35,12 @@ module.exports = function (app) {
 
     //create a relation
     app.post('/api/relationship', function (req, res) {
+        //TODO: add code
+    });
 
+    app.post('/api/organization/:name/:email/:password', function(req, res){
+        //TODO: reall authentication
+        db.create_org(req, res, decodeURIComponent(req.params.name), decodeURIComponent(req.params.email), "tempPassword");
     });
 
     // delete a relation
