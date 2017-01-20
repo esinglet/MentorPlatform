@@ -1,0 +1,21 @@
+#login {
+	background-color:  #D2D2D2;
+	margin:0 auto;
+	width:500px;
+}
+
+tr {
+	width: 100%;
+}
+
+#padding {
+	height: 40px;
+}
+
+table {
+	border-left: 10px solid #b3b3ff;
+}
+
+span {
+	font-weight: bold;
+}

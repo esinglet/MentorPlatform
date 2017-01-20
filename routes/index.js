@@ -39,7 +39,7 @@ module.exports = function (app) {
     });
 
     app.post('/api/organization/:name/:email/:password', function(req, res){
-        //TODO: reall authentication
+        //TODO: all authentication
         db.create_org(req, res, decodeURIComponent(req.params.name), decodeURIComponent(req.params.email), "tempPassword");
     });
 
@@ -55,8 +55,7 @@ module.exports = function (app) {
         });
     });
 
-    // application -------------------------------------------------------------
-    app.get('*', function (req, res) {
-        res.sendFile(__dirname + '/public/index.html'); // load the main page
+    app.get('/', function (req, res) {
+        res.sendFile('login.html', { root: './public' });
     });
 };
