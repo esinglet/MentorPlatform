@@ -1,7 +1,8 @@
 module.exports = function (app) {
-	app.post('/login/:email/:password', function(req, res){
-		var email = decodeURIComponent(req.params.email),
-			password = decodeURIComponent(req.params.password);
-
+	app.post('/_login', function(req, res){
+		var email = decodeURIComponent(req.query.email),
+			password = decodeURIComponent(req.query.password);
+		console.log(email);
+		console.log(password);
 	});
 };

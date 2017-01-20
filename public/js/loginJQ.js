@@ -4,7 +4,7 @@ $(document).on("submit", "#login", function(){
 	if(!validate(email, password)){
 		$("#retry").show();
 	} else{
-		$.post('/login/'+encodeURIComponent(email)+'/'+encodeURIComponent(password));
+		$.post('/_login/?email='+encodeURIComponent(email)+'&password='+encodeURIComponent(password));
 	}
 });
 

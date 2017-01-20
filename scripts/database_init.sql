@@ -1,7 +1,18 @@
+-- MySQL Workbench Forward Engineering
+
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema mentorshipapp
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mentorshipapp
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `mentorshipapp` DEFAULT CHARACTER SET utf8 ;
 USE `mentorshipapp` ;
@@ -25,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `mentorshipapp`.`meetings` (
   `date_created` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`meeting_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 54
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -34,10 +46,11 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `mentorshipapp`.`organizations` (
   `org_id` INT(11) NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(250) NOT NULL,
-  `password` VARCHAR(250) NOT NULL,
+  `password` VARCHAR(64) NOT NULL,
   `name` VARCHAR(250) NOT NULL,
   PRIMARY KEY (`org_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -50,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `mentorshipapp`.`people` (
   `last_name` VARCHAR(250) NOT NULL,
   `email` VARCHAR(250) NOT NULL,
   `date_joined` DATETIME NULL DEFAULT NULL,
-  `active` BIT(1) NOT NULL DEFAULT b'1',
+  `active` TINYINT(1) NOT NULL DEFAULT '1',
   `org_id` INT(11) NOT NULL,
   PRIMARY KEY (`person_id`),
   INDEX `org_idx` (`org_id` ASC),
@@ -60,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `mentorshipapp`.`people` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -69,7 +83,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `mentorshipapp`.`meeting_persons` (
   `meeting_id` INT(11) NOT NULL,
   `person_id` INT(11) NOT NULL,
-  `mentor` BIT(1) NOT NULL,
+  `mentor` TINYINT(1) NOT NULL,
   `survey_status` INT(11) NOT NULL,
   `survey_blob` BLOB NULL DEFAULT NULL,
   PRIMARY KEY (`meeting_id`, `person_id`),
@@ -116,6 +130,7 @@ CREATE TABLE IF NOT EXISTS `mentorshipapp`.`relationships` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -138,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `mentorshipapp`.`tokens` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-SET SQL_SAFE_UPDATES = 0;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
