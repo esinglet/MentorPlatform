@@ -1,144 +1,128 @@
+-- MySQL Workbench Forward Engineering
+
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mentorshipapp` DEFAULT CHARACTER SET utf8 ;
-USE `mentorshipapp` ;
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema odyssey_dev
+-- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Table `mentorshipapp`.`lu_survey_status`
+-- Schema odyssey_dev
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mentorshipapp`.`lu_survey_status` (
-  `value` INT(11) NOT NULL,
-  `status` VARCHAR(250) NULL DEFAULT NULL,
-  PRIMARY KEY (`value`))
+CREATE SCHEMA IF NOT EXISTS `odyssey_dev` DEFAULT CHARACTER SET latin1 ;
+USE `odyssey_dev` ;
+
+-- -----------------------------------------------------
+-- Table `odyssey_dev`.`lu_role`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `odyssey_dev`.`lu_role` ;
+
+CREATE TABLE IF NOT EXISTS `odyssey_dev`.`lu_role` (
+  `role_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`role_id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `mentorshipapp`.`meetings`
+-- Table `odyssey_dev`.`organizations`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mentorshipapp`.`meetings` (
-  `meeting_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `date_created` DATETIME NULL DEFAULT NULL,
-  PRIMARY KEY (`meeting_id`))
+DROP TABLE IF EXISTS `odyssey_dev`.`organizations` ;
+
+CREATE TABLE IF NOT EXISTS `odyssey_dev`.`organizations` (
+  `orgid` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(250) NULL DEFAULT NULL,
+  PRIMARY KEY (`orgid`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `mentorshipapp`.`organizations`
+-- Table `odyssey_dev`.`people`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mentorshipapp`.`organizations` (
-  `org_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `email` VARCHAR(250) NOT NULL,
-  `password` VARCHAR(250) NOT NULL,
-  `name` VARCHAR(250) NOT NULL,
-  PRIMARY KEY (`org_id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DROP TABLE IF EXISTS `odyssey_dev`.`people` ;
 
-
--- -----------------------------------------------------
--- Table `mentorshipapp`.`people`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mentorshipapp`.`people` (
-  `person_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `first_name` VARCHAR(250) NOT NULL,
-  `last_name` VARCHAR(250) NOT NULL,
-  `email` VARCHAR(250) NOT NULL,
-  `date_joined` DATETIME NULL DEFAULT NULL,
-  `active` BIT(1) NOT NULL DEFAULT b'1',
-  `org_id` INT(11) NOT NULL,
-  PRIMARY KEY (`person_id`),
-  INDEX `org_idx` (`org_id` ASC),
-  CONSTRAINT `org_id`
-    FOREIGN KEY (`org_id`)
-    REFERENCES `mentorshipapp`.`organizations` (`org_id`)
+CREATE TABLE IF NOT EXISTS `odyssey_dev`.`people` (
+  `personid` INT(11) NOT NULL AUTO_INCREMENT,
+  `fname` VARCHAR(150) NULL DEFAULT NULL,
+  `lname` VARCHAR(150) NULL DEFAULT NULL,
+  `email` VARCHAR(250) NULL DEFAULT NULL,
+  `password` VARCHAR(64) NULL DEFAULT NULL,
+  `role` INT(11) NULL DEFAULT NULL,
+  `org` INT(11) NULL DEFAULT NULL,
+  `active` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`personid`),
+  INDEX `fk_role_idx` (`role` ASC),
+  INDEX `fk_org_idx` (`org` ASC),
+  CONSTRAINT `fk_org`
+    FOREIGN KEY (`org`)
+    REFERENCES `odyssey_dev`.`organizations` (`orgid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_role`
+    FOREIGN KEY (`role`)
+    REFERENCES `odyssey_dev`.`lu_role` (`role_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `mentorshipapp`.`meeting_persons`
+-- Table `odyssey_dev`.`relationships`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mentorshipapp`.`meeting_persons` (
-  `meeting_id` INT(11) NOT NULL,
-  `person_id` INT(11) NOT NULL,
-  `mentor` BIT(1) NOT NULL,
-  `survey_status` INT(11) NOT NULL,
-  `survey_blob` BLOB NULL DEFAULT NULL,
-  PRIMARY KEY (`meeting_id`, `person_id`),
-  INDEX `person_id_idx` (`person_id` ASC),
-  INDEX `status_idx` (`survey_status` ASC),
-  CONSTRAINT `meeting_id`
-    FOREIGN KEY (`meeting_id`)
-    REFERENCES `mentorshipapp`.`meetings` (`meeting_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `person_id`
-    FOREIGN KEY (`person_id`)
-    REFERENCES `mentorshipapp`.`people` (`person_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `status`
-    FOREIGN KEY (`survey_status`)
-    REFERENCES `mentorshipapp`.`lu_survey_status` (`value`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DROP TABLE IF EXISTS `odyssey_dev`.`relationships` ;
 
-
--- -----------------------------------------------------
--- Table `mentorshipapp`.`relationships`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mentorshipapp`.`relationships` (
-  `rel_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `mentor` INT(11) NOT NULL,
-  `mentee` INT(11) NOT NULL,
-  `date_created` DATETIME NULL DEFAULT NULL,
-  PRIMARY KEY (`rel_id`),
-  INDEX `mentor_idx` (`mentor` ASC),
-  INDEX `mentee_idx` (`mentee` ASC),
-  CONSTRAINT `mentee`
+CREATE TABLE IF NOT EXISTS `odyssey_dev`.`relationships` (
+  `relid` INT(11) NOT NULL AUTO_INCREMENT,
+  `mentor` INT(11) NULL DEFAULT NULL,
+  `mentee` INT(11) NULL DEFAULT NULL,
+  `date_created` DATE NULL DEFAULT NULL,
+  `rate` INT(11) NULL DEFAULT NULL,
+  `date_start` DATE NULL DEFAULT NULL,
+  PRIMARY KEY (`relid`),
+  INDEX `fk_mentor_idx` (`mentor` ASC),
+  INDEX `fk_mentee_idx` (`mentee` ASC),
+  CONSTRAINT `fk_mentee`
     FOREIGN KEY (`mentee`)
-    REFERENCES `mentorshipapp`.`people` (`person_id`)
+    REFERENCES `odyssey_dev`.`people` (`personid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `mentor`
+  CONSTRAINT `fk_mentor`
     FOREIGN KEY (`mentor`)
-    REFERENCES `mentorshipapp`.`people` (`person_id`)
+    REFERENCES `odyssey_dev`.`people` (`personid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `mentorshipapp`.`tokens`
+-- Table `odyssey_dev`.`meetings`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mentorshipapp`.`tokens` (
-  `tok_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `token` VARCHAR(1000) NOT NULL,
-  `person_id` INT(11) NOT NULL,
-  `meeting_id` INT(11) NOT NULL,
-  `mentor` BIT(1) NOT NULL DEFAULT b'0',
-  PRIMARY KEY (`tok_id`),
-  INDEX `person_idx` (`person_id` ASC),
-  CONSTRAINT `person`
-    FOREIGN KEY (`person_id`)
-    REFERENCES `mentorshipapp`.`people` (`person_id`)
+DROP TABLE IF EXISTS `odyssey_dev`.`meetings` ;
+
+CREATE TABLE IF NOT EXISTS `odyssey_dev`.`meetings` (
+  `relationship_id` INT(11) NOT NULL,
+  `meeting_date` DATE NOT NULL,
+  `mentee_survey` MEDIUMTEXT NULL DEFAULT NULL,
+  `mentor_survey` MEDIUMTEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`relationship_id`, `meeting_date`),
+  CONSTRAINT `fk_relationship`
+    FOREIGN KEY (`relationship_id`)
+    REFERENCES `odyssey_dev`.`relationships` (`relid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = latin1;
 
-SET SQL_SAFE_UPDATES = 0;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
