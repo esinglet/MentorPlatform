@@ -5,3 +5,4 @@ http://stackoverflow.com/questions/13023361/how-does-node-bcrypt-js-compare-hash
 http://stackoverflow.com/questions/20089582/how-to-get-url-parameter-in-express-node-js
 http://stackoverflow.com/questions/5046930/jquery-send-string-as-post-parameters
 http://www.ajax-tutor.com/420/jquery-post/
+http://stackoverflow.com/questions/19268812/do-i-implement-serialize-and-deserialize-nodesjs-passport-redisstore
