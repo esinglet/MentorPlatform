@@ -225,7 +225,7 @@ module.exports = {
 	},
 
 
-	getUserLogin: function(id, done){
+	getUserLogin: function(id, callback){
 		var qur = "select personid as id, fname, lname, email. role, org, active from people where personid = ?";
 		var args = [id];
 		cleanQuery(qur, args, done);
@@ -244,8 +244,10 @@ module.exports = {
 		});*/
 	},
 
-	testNewEmail: function(email){
-
+	testNewEmail: function(email, callback){
+		var qur = "select count(*) from people where email = '?'";
+		var args = [email];
+		cleanQuery(qur, args, done);
 	}
 };
 
