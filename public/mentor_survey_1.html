@@ -7,7 +7,7 @@
 </head>
 <body>
 <div id="form">
-<form>
+<form onsubmit="return false;">
 	<div id="text_questions">
 		Who did you meet?<br>
 		<input type="text" name="name"><br><br>
@@ -34,7 +34,7 @@
 	<input type="checkbox" name="conflict resolution" value="conflict resolution"> conflict resolution<br>
 	<input type="checkbox" name="other" value="other"> other<br><br>
 
-	<input type="submit">
+	<input type="submit" name="submit_survey" value="Submit">
 </form>
 </div>
 </body>
