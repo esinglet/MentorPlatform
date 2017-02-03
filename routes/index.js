@@ -59,7 +59,24 @@ module.exports = function (app) {
         res.sendFile('login.html', { root: './public' });
     });
 
+    //serve up the survey
     app.get('/survey1', function (req, res) {
         res.sendFile('mentor_survey_1.html', { root: './public' });
     });
+
+    //grab the posted form elements from the post params
+    app.post('/survey1', function (req, res) {
+        console.log(req.body);
+        res.redirect('/submission_received');
+    });
+
+    //successful submission
+    app.get('/submission_received', function (req, res) {
+        res.sendFile('successful_submission.html', { root: './public' });
+    });
+
+    app.get('/admin_panel', function (req, res) {
+        res.sendFile('admin_panel.html', { root: './public' });
+    });
+
 };

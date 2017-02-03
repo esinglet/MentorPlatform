@@ -2,12 +2,10 @@
 <head>
 	<title>Meeting Survey</title>
 	<link rel="stylesheet" href="/stylesheets/survey.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-	<script type="text/javascript" src="/js/mentorSurvey1.js"></script>
 </head>
 <body>
 <div id="form">
-<form onsubmit="return false;">
+<form action="/survey1" method="post"> <!--onsubmit="return false;" -->
 	<div id="text_questions">
 		Who did you meet?<br>
 		<input type="text" name="name"><br><br>
