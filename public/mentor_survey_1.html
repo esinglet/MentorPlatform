@@ -1,0 +1,35 @@
+<html>
+<head>
+	<title>Meeting Survey</title>
+	<link rel="stylesheet" href="/stylesheets/style2.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/mentorSurvey1.js"></script>
+</head>
+<body>
+<form>
+	Who did you meet?<br>
+	<input type="text" name="name"><br>
+	When did you meet?<br>
+	<input type="date" name="date"><br>
+	How did you meet?<br>
+	<input type="radio" name="In-person" value="In-person" checked> In-person<br>
+	<input type="radio" name="Online Video" value="Online Video"> Online Video<br>
+	<input type="radio" name="Phone" value="Phone"> Phone<br>
+	How long was the meeting?<br>
+	<select name="meeting_length">
+		<option value="30 Minutes">30 Minutes</option>
+		<option value="1 hour">1 hour</option>
+		<option value="1.5 hours">1.5 hours</option>
+		<option value="2+ hours">2+ hours</option>
+	</select><br>
+	What did you discuss?<br>
+	<input type="checkbox" name="leadership" value="leadership"> leadership<br>
+	<input type="checkbox" name="selling" value="selling"> selling<br>
+	<input type="checkbox" name="negotiation" value="negotiation"> negotiation<br>
+	<input type="checkbox" name="conflict resolution" value="conflict resolution"> conflict resolution<br>
+	<input type="checkbox" name="other" value="other"> other<br>
+
+	<input type="submit">
+</form>
+</body>
+</html>

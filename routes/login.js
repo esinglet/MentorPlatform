@@ -3,5 +3,8 @@ module.exports = function (app) {
 		var email = decodeURIComponent(req.params.email),
 			password = decodeURIComponent(req.params.password);
 
+		//FOR TESTING, JUST SEND THE USER ON
+		console.log("hi there");
+		res.redirect('/survey1');
 	});
 };

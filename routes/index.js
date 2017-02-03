@@ -58,4 +58,8 @@ module.exports = function (app) {
     app.get('/', function (req, res) {
         res.sendFile('login.html', { root: './public' });
     });
+
+    app.get('/survey1', function (req, res) {
+        res.sendFile('mentor_survey_1.html', { root: './public' });
+    });
 };
