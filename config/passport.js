@@ -6,3 +6,32 @@ http://stackoverflow.com/questions/20089582/how-to-get-url-parameter-in-express-
 http://stackoverflow.com/questions/5046930/jquery-send-string-as-post-parameters
 http://www.ajax-tutor.com/420/jquery-post/
 http://stackoverflow.com/questions/19268812/do-i-implement-serialize-and-deserialize-nodesjs-passport-redisstore
+
+
+var bcrypt = require('bcrypt-nodejs');
+var pool = require('../database/pool');
+
+modual.exports = function(passport){
+
+	passport.serializeUser(function(user, done){
+		done(null, user.id);
+	});
+
+	passport.deserializeUser(function(id, done){
+		pool.getConnection(function(err, con){		
+			if(err){
+				console.log(err.message);
+				done(err, user);
+			}
+			con.query("select personid as id, fname, lname, email. role, org, active from people where personid = ?" , id, function(err, rows){
+				if(err){
+					console.log(err.message);
+					done(err, user);
+				}
+				done(null, rows);  
+			})
+		})
+	});
+
+};
+

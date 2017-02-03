@@ -2,19 +2,10 @@ var mysql2 = require("mysql2");
 require('JSON');
 
 
+
 //https://codeforgeek.com/2015/01/nodejs-mysql-tutorial/
 
-var pool      =    mysql2.createPool({
-    connectionLimit : 100, 
-    host     : 'mentor-dev.c3aiprsfywzf.us-west-2.rds.amazonaws.com',
-    port     : '3306',
-    user     : 'root',
-    password : 'password',
-    database : 'mentorshipapp',
-    debug    :  false
-});
-
-
+var pool = require('./pool');
 
 function query(req, res, qur){
 	pool.getConnection(function(err, con){
