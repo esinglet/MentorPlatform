@@ -9,7 +9,9 @@ http://stackoverflow.com/questions/19268812/do-i-implement-serialize-and-deseria
 
 
 var bcrypt = require('bcrypt-nodejs');
-var pool = require('../database/pool');
+var db = require('../database/database');
+var local = require('passport-local').Strategy;
+
 
 modual.exports = function(passport){
 
@@ -18,20 +20,17 @@ modual.exports = function(passport){
 	});
 
 	passport.deserializeUser(function(id, done){
-		pool.getConnection(function(err, con){		
-			if(err){
-				console.log(err.message);
-				done(err, user);
-			}
-			con.query("select personid as id, fname, lname, email. role, org, active from people where personid = ?" , id, function(err, rows){
-				if(err){
-					console.log(err.message);
-					done(err, user);
-				}
-				done(null, rows);  
-			})
-		})
+		db.getUserLogin(id, done);
 	});
+
+	passport.use('signup', 
+	new LocalStrategy({
+		usernameField : 'email',
+    	passwordField : 'password'
+	}),
+	function(req, email, password, done){
+		
+	}); //End local signup
 
 };
 

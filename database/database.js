@@ -29,6 +29,26 @@ function query(req, res, qur){
 	});
 }
 
+function cleanQuery(qur, args, callback){
+	pool.getConnection(function(err, con){
+		if(err) {
+			callback(err, false);
+		}
+
+		con.query(qur, function(err, rows){
+			con.release();
+			if(!err){
+				callback(false, rows);
+			}
+		});
+
+		con.on('error', function(err) {      
+              callback(err, false);
+        });
+	});
+}
+
+
 //Debug
 function queryD(req, res, qur){ 
 	pool.getConnection(function(err, con){
@@ -202,6 +222,30 @@ module.exports = {
 	get_relationships: function(req, res, org_id){
 		var qur = "select * from relationships join people on relationships.mentor = people.person_id where org_id = "+org_id;
 		query(req, res, qur);
+	},
+
+
+	getUserLogin: function(id, done){
+		var qur = "select personid as id, fname, lname, email. role, org, active from people where personid = ?";
+		var args = [id];
+		cleanQuery(qur, args, done);
+/*		pool.getConnection(function(err, con){		
+			if(err){
+				console.log(err.message);
+				done(err, user);
+			}
+			con.query("select personid as id, fname, lname, email. role, org, active from people where personid = ?" , id, function(err, rows){
+				if(err){
+					console.log(err.message);
+					done(err, user);
+				}
+				done(null, rows);  
+			});
+		});*/
+	},
+
+	testNewEmail: function(email){
+
 	}
 };
 

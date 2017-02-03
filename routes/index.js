@@ -56,6 +56,6 @@ module.exports = function (app) {
     });
 
     app.get('/', function (req, res) {
-        res.sendFile('login.html', { root: './public' });
+        res.render('login.ejs');
     });
 };
