@@ -79,4 +79,12 @@ module.exports = function (app) {
         res.sendFile('admin_panel.html', { root: './public' });
     });
 
+    //Create  non admin user
+    app.post('/create_user', function(req, res){
+        db.createUser(req, res);
+    });
+
+    app.get('/create_user', function (req, res) {
+        res.sendFile('add_user.html', { root: './public' });
+    });
 };
