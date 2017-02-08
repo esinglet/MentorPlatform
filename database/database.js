@@ -71,24 +71,38 @@ module.exports = {
 			res.redirect('/submission_received');
 		});
 	},
-
+//Gets a user by id returns user object with password
 	_passportGetUser: function(id, callback){
 		var qur = "select personid as id, fname, lname, email, role, org, active from people where personid = ?";
 		var args = [id];
 		qu(qur, args, function(err, rows){
 			if(err){
-				callback(err, null);
-				return;
+				return callback(err, null);
 			}
 
 			if(rows[0]){
-				callback(null, rows[0]);
+				return callback(false, rows[0]);
 			} else{
-				callback({message:"No such user."}, null);
+				return callback({message:"No such user."}, null);
 			}
 		});
 	},
-	
+//Gets a user by email returns user object with password
+	_passportGetUserByEmail: function(email, callback){
+		var qur = "select personid as id, fname, lname, email, role, org, active from people where email = ?";
+		var args = [email];
+		qu(qur, args, function(err, rows){
+			if(err){
+				return callback(err, rows);
+			} 
+			if(rows[0]){
+				return callback(false, rows[0]);
+			} else{
+				return callback({message:"No such user."}, null);
+			}
+		});
+	},
+//Creates a user with given info and returns id
 	_passportCreateGet: function(info, callback){
 		var qur = "insert into people (fname, lname, email, password, role, org, active, admin) values(?, ?, ?"+
 			", ?, ?, ?, 1, null)";
@@ -103,23 +117,20 @@ module.exports = {
 
 		qu(qur, args, function(err, rows){
 			if(err){
-				callback(err, null);
-				return;
+				return callback(err, null);
 			} 
-			callback(null, rows.insertId);
+			return callback(false, rows.insertId);
 		});
 	},
-
+//Tests is a person with the given email is in database returns true if a user exists in database
 	_passportTestExist: function(email, callback){
 		var qur = "select count(*) from people where email=?";
 		var args = [email];
 		qu(qur, args, function(err, result){
 			if(err) {
-				callback(err, true);
-				return;
+				return callback(err, true);
 			} else {
-				callback(null, isCount(result));
-				return;
+				return callback(false, isCount(result));
 			}
 		});
 	}
@@ -127,4 +138,4 @@ module.exports = {
 
 };
 
-//module.exports._passportGetUser(7, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
+module.exports._passportGetUser(7, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});

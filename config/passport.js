@@ -16,6 +16,10 @@ function hashPassword(password){
 	return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
 }
 
+function checkPassword(password, hash){
+	return bcrypt.compareSync(password, hash);
+}
+
 
 module.exports = function(passport){
 
@@ -43,7 +47,7 @@ module.exports = function(passport){
 			} 
 			if(tst){
 				console.log("eMail already in use")
-				return;
+				return done(null, false);
 			} else{
 				//Insert with hashed password
 				var info = {};
@@ -57,7 +61,7 @@ module.exports = function(passport){
 					delete user.password;
 					user.id = id;
 					if(err){
-						return done(err, user);
+						return done(err, false);
 					} else{
 						return done(null, user);
 					}
@@ -66,6 +70,22 @@ module.exports = function(passport){
 		});
 	}); //End local signup
 
+	passport.use('login', new LocalStrategy({
+		usernameField : 'email',
+    	passwordField : 'password'
+	}),
+	function(req, email, password, done){
+		db._passportGetUserByEmail(email, function(err, user){
+			if(err){
+				return done(err);
+			}
+			if (checkPassword(password, user.password)){
+				return done(null, user);
+			} else{
+				return done(null, false);
+			}
+		});
+	});
 };
 
 console.log(hashPassword("password"));
