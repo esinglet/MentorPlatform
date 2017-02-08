@@ -1,9 +1,16 @@
-
-var c = require('connect');
-var pool = c.pool;
-console.log(pool);
-var mysql2 = c.mysql2;
+var mysql2 = require("mysql2");
 require('JSON');
+
+var pool      =    mysql2.createPool({
+    connectionLimit : 100, 
+    host     : '127.0.0.1',
+    port     : '3036',
+    user     : 'root',
+    password : 'password',
+    database : 'odyssey_dev',
+    debug    :  false
+});
+
 
 function qu(qur, args, callback){
 	pool.getConnection(function(err, con){
@@ -71,7 +78,7 @@ module.exports = {
 			if(rows[0]){
 				return callback(false, rows[0]);
 			} else{
-				return callback({message:"No such user."}, null);
+				return callback(false, false);
 			}
 		});
 	},
@@ -81,17 +88,17 @@ module.exports = {
 		var args = [email];
 		qu(qur, args, function(err, rows){
 			if(err){
-				return callback(err, rows);
+				return callback(err, false);
 			} 
 			if(rows[0]){
 				return callback(false, rows[0]);
 			} else{
-				return callback({message:"No such user."}, null);
+				return callback(false, false);
 			}
 		});
 	},
 //Creates a user with given info and returns id of new user
-	_passportCreateGet: function(info, callback){
+	_passportCreate: function(info, callback){
 		var qur = "insert into people (fname, lname, email, password, role, org, active, admin) values(?, ?, ?"+
 			", ?, ?, ?, 1, null)";
 
@@ -105,7 +112,7 @@ module.exports = {
 
 		qu(qur, args, function(err, rows){
 			if(err){
-				return callback(err, null);
+				return callback(err, false);
 			} 
 			return callback(false, rows.insertId);
 		});
@@ -126,4 +133,4 @@ module.exports = {
 
 };
 
-module.exports._passportGetUser(7, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
+//module.exports._passportGetUser(7, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
