@@ -3,13 +3,18 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "cp -R ./node_modules/bootstrap/dist/css ./public/stylesheets/bootstrap_css &&node ./bin/www",
     "test": "mocha --timeout 10000"
   },
   "dependencies": {
     "JSON": "^1.0.0",
+<<<<<<< HEAD
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.15.2",
+=======
+    "body-parser": "^1.15.2",
+    "bootstrap": "^3.3.7",
+>>>>>>> refs/remotes/origin/master
     "bytes": "^2.4.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
