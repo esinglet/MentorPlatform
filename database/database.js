@@ -1,23 +1,9 @@
-var mysql2 = require("mysql2");
+
+var c = require('connect');
+var pool = c.pool;
+console.log(pool);
+var mysql2 = c.mysql2;
 require('JSON');
-
-
-//https://codeforgeek.com/2015/01/nodejs-mysql-tutorial/
-
-var pool      =    mysql2.createPool({
-    connectionLimit : 100, 
-    host     : '127.0.0.1',
-    port     : '3036',
-    user     : 'root',
-    password : 'password',
-    database : 'odyssey_dev',
-    debug    :  false
-});
-
-
-//https://codeforgeek.com/2015/01/nodejs-mysql-tutorial/
-
-//var pool = require('./pool');
 
 function qu(qur, args, callback){
 	pool.getConnection(function(err, con){
@@ -71,7 +57,9 @@ module.exports = {
 			res.redirect('/submission_received');
 		});
 	},
-//Gets a user by id returns user object with password
+
+
+//Gets a user by id returns user object with password.
 	_passportGetUser: function(id, callback){
 		var qur = "select personid as id, fname, lname, email, role, org, active from people where personid = ?";
 		var args = [id];
@@ -87,7 +75,7 @@ module.exports = {
 			}
 		});
 	},
-//Gets a user by email returns user object with password
+//Gets a user by email returns user object with password. returns first if there are many
 	_passportGetUserByEmail: function(email, callback){
 		var qur = "select personid as id, fname, lname, email, role, org, active from people where email = ?";
 		var args = [email];
@@ -102,7 +90,7 @@ module.exports = {
 			}
 		});
 	},
-//Creates a user with given info and returns id
+//Creates a user with given info and returns id of new user
 	_passportCreateGet: function(info, callback){
 		var qur = "insert into people (fname, lname, email, password, role, org, active, admin) values(?, ?, ?"+
 			", ?, ?, ?, 1, null)";

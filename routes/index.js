@@ -1,5 +1,6 @@
 
 var db = require("../database/database")
+var passport = require('passport');
 
 /* GET home page. */ /*
 router.get('/', function(req, res, next) {
@@ -8,9 +9,17 @@ router.get('/', function(req, res, next) {
 
 module.exports = router; */
 
+function auth(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    } else{
+        //TODO redirect to home page (or whatever)
+    }
+}
+
 
 //https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
-module.exports = function (app) {
+module.exports = function (app, passport) {
     //API ---------------------------------------------------------
     //get all people
     app.get('/api/people/:org_name', function (req, res) {
@@ -87,4 +96,14 @@ module.exports = function (app) {
     app.get('/create_user', function (req, res) {
         res.sendFile('add_user.html', { root: './public' });
     });
+
+    app.post('/signup', passport.authenticate('signup', {
+        successRedirect: '/',
+        failureRedirect: '/'
+    }));
+
+    app.post('/login', passport.authenticate('login', {
+        successRedirect: '/',
+        failureRedirect: '/'
+    }));
 };

@@ -1,15 +1,16 @@
 var express = require('express');
+
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-//var mongoose = require('mongoose'); 				// mongoose for mongodb
-
-//var index = require('./routes/index');
-
+var passport = require('passport');
+var session      = require('express-session');
 
 var app = express();
+
+require('../config/passport')(passport);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,8 +24,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false })); //does this sanitize for queries? 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-require('./routes/index')(app);
-require('./routes/login')(app);
+
+app.use(session({
+	secret:"iceberg friend blue",
+	cookie:{
+		maxAge: null, //browser session, ends when browser closed OR time in miliseconds. this is password time out
+		secure: false
+	}
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./routes/index')(app, passport);
+require('./routes/login')(app, passport);
 
 
 // catch 404 and forward to error handler
