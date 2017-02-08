@@ -10,7 +10,7 @@ var session  = require('express-session');
 
 var app = express();
 
-require('../config/passport')(passport);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,6 +21,7 @@ app.set('view engine', 'ejs');
 //mongoose.connect(database.localUrl);
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(bodyParser());
 app.use(bodyParser.urlencoded({ extended: false })); //does this sanitize for queries? 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,6 +36,8 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+require('./config/passport')(passport);
+
 
 require('./routes/index')(app, passport);
 require('./routes/login')(app, passport);

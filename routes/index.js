@@ -97,6 +97,10 @@ module.exports = function (app, passport) {
         res.sendFile('add_user.html', { root: './public' });
     });
 
+    app.get('/login', function(req, res){
+            res.render('login.ejs');
+    });
+
     app.post('/signup', passport.authenticate('signup', {
         successRedirect: '/',
         failureRedirect: '/'

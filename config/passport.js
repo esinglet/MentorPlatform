@@ -15,7 +15,7 @@ function checkPassword(password, hash){
 module.exports = function(passport){
 
 	passport.serializeUser(function(user, done){
-		done(null, user.id);
+		return done(null, user.id);
 	});
 
 	passport.deserializeUser(function(id, done){
@@ -25,23 +25,23 @@ module.exports = function(passport){
 	});
 
 	passport.use('signup', 
-	new LocalStrategy({
+	new local({
 		usernameField : 'email',
-    	passwordField : 'password'
-	}),
+    	passwordField : 'password',
+    	passReqToCallback: true
+	},
 	function(req, email, password, done){
 		// Test email exists
 		db._passportTestExist(email, function(err, tst){
 			if(err){
-				console.log(err.message);
-				return;
+				return done(err);
 			} 
 			if(tst){
 				console.log("eMail already in use")
 				return done(null, false);
 			} else{
 				//Insert with hashed password
-				var info = {};
+				var user = {};
 				user.fname = req.body.fname;
 				user.lname = req.body.lname;
 				user.email = req.body.email;
@@ -52,19 +52,21 @@ module.exports = function(passport){
 					delete user.password;
 					user.id = id;
 					if(err){
-						return done(err, false);
+						return done(err);
 					} else{
 						return done(null, user);
 					}
-				})
+				});
 			}
 		});
-	}); //End local signup
+	})); //End local signup
 
-	passport.use('login', new LocalStrategy({
+	passport.use('login', 
+	new local({
 		usernameField : 'email',
-    	passwordField : 'password'
-	}),
+    	passwordField : 'password',
+    	passReqToCallback: true
+	},
 	function(req, email, password, done){
 		db._passportGetUserByEmail(email, function(err, user){
 			if(err){
@@ -79,7 +81,5 @@ module.exports = function(passport){
 				return done(null, false);
 			}
 		});
-	});
+	}));
 };
-
-console.log(hashPassword("password"));

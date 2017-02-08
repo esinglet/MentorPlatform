@@ -100,14 +100,14 @@ module.exports = {
 //Creates a user with given info and returns id of new user
 	_passportCreate: function(info, callback){
 		var qur = "insert into people (fname, lname, email, password, role, org, active, admin) values(?, ?, ?"+
-			", ?, ?, ?, 1, null)";
+			", ?, 1, ?, 1, null)";
 
 		var args = [];
 		args.push(info.fname);
 		args.push(info.lname);
 		args.push(info.email);
 		args.push(info.password);
-		args.push(info.role);
+		//args.push(info.role);
 		args.push(info.org);
 
 		qu(qur, args, function(err, rows){
