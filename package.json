@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cp -R ./node_modules/bootstrap/dist/css ./public/stylesheets/bootstrap_css &&node ./bin/www",
-    "test": "mocha --timeout 10000"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "JSON": "^1.0.0",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "bytes": "^2.4.0",
@@ -15,9 +15,11 @@
     "debug": "~2.2.0",
     "ejs": "~2.5.2",
     "express": "~4.14.0",
+    "express-session": "^1.15.0",
     "morgan": "~1.7.0",
     "mysql2": "^1.1.2",
     "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {

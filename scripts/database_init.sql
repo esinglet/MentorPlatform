@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `odyssey_dev`.`lu_role` (
   `name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`role_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -40,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `odyssey_dev`.`organizations` (
   `name` VARCHAR(250) NULL DEFAULT NULL,
   PRIMARY KEY (`orgid`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -57,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `odyssey_dev`.`people` (
   `role` INT(11) NULL DEFAULT NULL,
   `org` INT(11) NULL DEFAULT NULL,
   `active` INT(11) NULL DEFAULT NULL,
+  `admin` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`personid`),
   INDEX `fk_role_idx` (`role` ASC),
   INDEX `fk_org_idx` (`org` ASC),
@@ -71,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `odyssey_dev`.`people` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 8
 DEFAULT CHARACTER SET = latin1;
 
 
