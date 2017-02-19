@@ -3,8 +3,8 @@ require('JSON');
 
 var pool      =    mysql2.createPool({
     connectionLimit : 100, 
-    host     : '127.0.0.1',
-    port     : '3036',
+    host     : 'mentor-dev.c3aiprsfywzf.us-west-2.rds.amazonaws.com',
+    port     : '3306',
     user     : 'root',
     password : 'password',
     database : 'odyssey_dev',
