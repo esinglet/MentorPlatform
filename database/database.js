@@ -1,15 +1,8 @@
 var mysql2 = require("mysql2");
 require('JSON');
+var config =require('../config/config.json');
 
-var pool      =    mysql2.createPool({
-    connectionLimit : 100, 
-    host     : 'mentor-dev.c3aiprsfywzf.us-west-2.rds.amazonaws.com',
-    port     : '3306',
-    user     : 'root',
-    password : 'password',
-    database : 'odyssey_dev',
-    debug    :  false
-});
+var pool =  mysql2.createPool(config["aws"]);
 
 
 function qu(qur, args, callback){
@@ -133,4 +126,4 @@ module.exports = {
 
 };
 
-//module.exports._passportGetUser(7, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
+module.exports._passportGetUser(7, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
