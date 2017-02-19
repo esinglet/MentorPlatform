@@ -111,4 +111,15 @@ module.exports = function (app, passport) {
         successRedirect: '/',
         failureRedirect: '/'
     }));
+
+    app.post('/testEmail', function(req, res){
+        console.log(req.body.email);
+        db._passportTestExist(req.body.email, function(err, test){
+            if(err||test){
+                res.json({result:1});
+            } else{
+                res.json({result:0});
+            }
+        });
+    });
 };

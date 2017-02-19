@@ -37,7 +37,7 @@ module.exports = function(passport){
 				return done(err);
 			} 
 			if(tst){
-				console.log("eMail already in use")
+				console.log("eMail already in use");
 				return done(null, false);
 			} else{
 				//Insert with hashed password
