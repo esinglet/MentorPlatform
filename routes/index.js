@@ -122,4 +122,26 @@ module.exports = function (app, passport) {
             }
         });
     });
+
+    app.post('/createRelationship', auth,function(req, res){
+        db.createRelationship(req, function(err, suc){
+            if(err){
+                res.json({result:1});
+            } else {
+                res.json({result:0});
+            }
+        });
+    });
+
+    app.post('/getOrgPeople', auth,function(req, res){
+        db.getOrgPeople(req, function(err, suc){
+            if(err){
+                res.json({result:1});
+            } else {
+                console.log(suc);
+                res.json(suc);
+            }
+        });
+    });
+
 };
