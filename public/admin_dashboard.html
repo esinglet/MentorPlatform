@@ -38,10 +38,11 @@
         .login-text{
             color: #9d9d9d;
         }
+
     </style>
 </head>
 <body>
-
+<!--
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
 
@@ -58,48 +59,23 @@
         <div id="navbar" class="navbar-collapse collapse">
         <div>
             <h4 class="navbar-right login-text"> Your login name</h4>
-        </div><!--/.navbar-collapse -->
-        <div>
+        </div><!--/.navbar-collapse --> <!--
+        </div>
     </div>
-</nav> 
+</nav> -->
+<div class=".container-fluid">
+<form class="mentorList form-group .col-xs-4">
 
 
+</form>
+<form class="menteeList form-group .col-xs-4">
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
-    <div class="container">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-    </div>
+
+</form>
 </div>
 
-<div class="container">
-    <!-- Example row of columns -->
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-    </div>
 
-    <hr>
 
-    <footer>
-        <p>&copy; 2016 Company, Inc.</p>
-    </footer>
-</div> <!-- /container -->
 
 
 <!-- Bootstrap core JavaScript
@@ -112,34 +88,22 @@ IE10 viewport hack for Surface/desktop Windows 8 bug
 <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script type="text/javascript">
-        $('#myModal').on('hidden.bs.modal', function () {
-            $(this).find("input,textarea,select").val('').end();
 
-        });
-
-        //Is Signup valid
-        // $(document).on("submit", '#su', function(){
-        //     var email = $('#su').("email").val();
-        //     var cemail = $('#su').("cemail").val();
-        //     if(!validEmail(email)){
-        //         console.log("invalid");
-
-        //         return;
-        //     } 
-        //     $.post("/testEmail", {email:email},function(data){
-        //         console.log(data.result);
-        //     },"json"); 
-        // });
-
-        $("#su").submit(function(event){
-            var email = $('#su-email').val();
-            var cemail = $('#su-cemail').val();
-            if(!validEmail(email)){
-                console.log("invalid");
-                return true;
-            }
-            console.log("this works");
-            $.post('signup', $("#su").serialize(), null);
+        $(document).ready(function (){
+            $.post("/getOrgPeople",{"org":2},function(data){
+                for (var i=0; i < data.length; i++){
+                    var obj = data[i];
+                    console.log(obj["role"]);
+                    if (obj["role"]==3) {//mentor
+                        $(".mentorList").append("<input type=\"radio\" name=\"mentors\" value=\""
+                                + obj["personid"] + "\">" + obj["lname"] + ", " + obj["fname"] + "<br/>");
+                    }
+                    else if (obj["role"]==4) { //mentee
+                        $(".menteeList").append("<input type=\"radio\" name=\"mentors\" value=\""
+                                + obj["personid"] + "\">" + obj["lname"] + ", " + obj["fname"] + "<br/>");
+                    }
+                }
+            });
         });
 
 </script>
