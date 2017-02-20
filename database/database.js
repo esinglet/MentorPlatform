@@ -22,11 +22,6 @@ function qu(qur, args, callback){
 				return callback(err,null);
 			}
 		});
-
-		con.on('error', function(err) {      
-              res.json({"code" : 101, "status" : "Error in connection database"});
-              return;
-        });
 	});
 }
 
@@ -87,17 +82,15 @@ module.exports = {
 		qu(orgQur, org, function(err, rows){
 
 			if(err){
-
 				return callback(err, false);
 			}
-			console.log("nnsajdhasjhuj");
+
 			var args = [];
 			args.push(info.fname);
 			args.push(info.lname);
 			args.push(info.email);
 			args.push(info.password);
 			args.push(rows.insertId);
-			console.log(args[4]);
 
 			qu(qur, args, function(err, rows){
 				if(err){
