@@ -37,26 +37,6 @@ function isCount(result){
 }
 
 module.exports = {
-	createUser: function(req, res){
-		var query = "insert into people (fname, lname, email, password, role, org, active,admin) values(?, ?, ?"+
-			", null, ?, ?, 1, 1)";
-		var args = [];
-//TODO: admin comes from passport of requesting user request, org should be either created new or from a list of
-// 	options, active will always be 1 to start.
-		// THe order of these must be the same as the SQL query above
-		args.push(req.body['fname']);
-		args.push(req.body['lname']);
-		args.push(req.body['email']);
-		args.push(req.body['role']);
-		args.push(req.body['org']);
-
-		qu(query, args, function(err, rows){
-			if(err){
-				console.log(err.message);
-			}
-			res.redirect('/submission_received');
-		});
-	},
 
 
 //Gets a user by id returns user object with password.
@@ -93,18 +73,19 @@ module.exports = {
 //Creates a user with given info and returns id of new user
 	_passportCreate: function(info, callback){
 		var qur = "insert into people (fname, lname, email, password, role, org, active, admin) values(?, ?, ?"+
-			", ?, 1, ?, 1, null)";
+			", ?, 2, ?, 1, null)";
 
 		var args = [];
 		args.push(info.fname);
 		args.push(info.lname);
 		args.push(info.email);
 		args.push(info.password);
-		//args.push(info.role);
+	    //args.push(info.role);
 		args.push(info.org);
 
 		qu(qur, args, function(err, rows){
 			if(err){
+				console.log(err);
 				return callback(err, false);
 			} 
 			return callback(false, rows.insertId);
@@ -126,4 +107,4 @@ module.exports = {
 
 };
 
-module.exports._passportGetUser(7, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
+//module.exports._passportGetUser(7, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
