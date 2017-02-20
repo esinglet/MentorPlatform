@@ -21,7 +21,7 @@ function auth(req, res, next){
 //https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
 module.exports = function (app, passport) {
 
-    app.get("/", auth, function(req, res){
+    app.get("/", function(req, res){
         res.sendFile('front.html', { root: './public' });
     });
 
