@@ -133,6 +133,11 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 -- ----------------------------- DATA
-insert into lu_role (name) values ('admin');
-insert into lu_role (name) values ('mentor');
-insert into lu_role (name) values ('mentee');
+insert into lu_role (name) values ('salt'); 
+insert into lu_role (name) values ('salt');
+insert into lu_role (name) values ('salt');
+insert into lu_role (name) values ('salt');
+
+update lu_role set name="admin" where role_id=2;
+update lu_role set name="mentor" where role_id=3;
+update lu_role set name="mentee" where role_id=4;

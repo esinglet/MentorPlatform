@@ -45,7 +45,7 @@ module.exports = function (app, passport) {
     });
 
     /*----------- need to add "Auth" to these functions----------------*/
-    app.post('/createRelationship',function(req, res){
+    app.post('/createRelationship', auth, function(req, res){
         db.createRelationship(req, function(err, suc){
             if(err){
                 res.json({result:1});
@@ -57,7 +57,7 @@ module.exports = function (app, passport) {
 
     //test with: curl --data "org=2" http://localhost:3000/getOrgPeople
     //returns a list of people as json
-    app.post('/getOrgPeople',function(req, res){
+    app.post('/getOrgPeople', auth, function(req, res){
         db.getOrgPeople(req.body, function(err, suc){
             if(err){
                 res.json({result:1});
@@ -68,7 +68,7 @@ module.exports = function (app, passport) {
         });
     });
 
-    app.get('/admin_panel', function (req, res) {
+    app.get('/admin_panel', auth, function (req, res) {
         res.sendFile('admin_dashboard.html', { root: './public' });
     });
 
@@ -91,7 +91,7 @@ module.exports = function (app, passport) {
         res.sendFile('add_user.html', { root: './public' });
     });
 
-    app.get("/create", function(req, res){
+    app.get("/create", auth, function(req, res){
         res.sendFile('add_user.html', { root: './public' });
     });
 
