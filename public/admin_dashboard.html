@@ -38,11 +38,21 @@
         .login-text{
             color: #9d9d9d;
         }
+        .parent-form{
+            text-align: center;
+            margin-top:5em;
+            border: solid;
+            border-color: #4d4d4d;
+            border-radius: 30px;
+            background-color: white;
+            width: 60%;
+            padding: 2em;
+        }
 
     </style>
 </head>
 <body>
-<!--
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
 
@@ -59,20 +69,27 @@
         <div id="navbar" class="navbar-collapse collapse">
         <div>
             <h4 class="navbar-right login-text"> Your login name</h4>
-        </div><!--/.navbar-collapse --> <!--
+        </div><!--/.navbar-collapse -->
         </div>
     </div>
-</nav> -->
-<div class=".container-fluid">
-<form class="mentorList form-group .col-xs-4">
+</nav>
 
-
+<form class="container parent-form" action="/createRelationship" method="post">
+    <div class="form-group"><select class="mentorList" name="mentor"></select>
+    <select class="menteeList" name="mentee"></select></div>
+        <div class="form-group">
+            <select autocomplete="off" class="rate" name="rate">
+                <option value="4" selected="selected">1 month</option>
+                <option value="1">1 week</option>
+                <option value="2"> 2 weeks</option>
+            </select></div>
+    <div class="form-group">
+            Start Date: <input type="date" id="datepicker">
+        </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-success" name="submit_survey" value="Create Relationship">
+    </div>
 </form>
-<form class="menteeList form-group .col-xs-4">
-
-
-</form>
-</div>
 
 
 
@@ -89,18 +106,18 @@ IE10 viewport hack for Surface/desktop Windows 8 bug
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
+
         $(document).ready(function (){
             $.post("/getOrgPeople",{"org":2},function(data){
                 for (var i=0; i < data.length; i++){
                     var obj = data[i];
-                    console.log(obj["role"]);
                     if (obj["role"]==3) {//mentor
-                        $(".mentorList").append("<input type=\"radio\" name=\"mentors\" value=\""
-                                + obj["personid"] + "\">" + obj["lname"] + ", " + obj["fname"] + "<br/>");
+                        $(".mentorList").append("<option value=\""
+                                + obj["personid"] + "\">" + obj["lname"] + ", " + obj["fname"]+"</option>");
                     }
                     else if (obj["role"]==4) { //mentee
-                        $(".menteeList").append("<input type=\"radio\" name=\"mentors\" value=\""
-                                + obj["personid"] + "\">" + obj["lname"] + ", " + obj["fname"] + "<br/>");
+                        $(".menteeList").append("<option value=\""
+                                + obj["personid"] + "\">" + obj["lname"] + ", " + obj["fname"]+"</option>");
                     }
                 }
             });
