@@ -85,10 +85,6 @@ module.exports = function (app, passport) {
         res.sendFile('successful_submission.html', { root: './public' });
     });
 
-    app.get('/admin_panel', function (req, res) {
-        res.sendFile('admin_panel.html', { root: './public' });
-    });
-
     //Create  non admin user
     app.post('/create_user', function(req, res){
         db.createUser(req, res);
@@ -147,6 +143,11 @@ module.exports = function (app, passport) {
         });
     });
 
+    app.get('/admin_panel', function (req, res) {
+        res.sendFile('admin_dashboard.html', { root: './public' });
+    });
+
+
     app.post("/createUser", auth, function(req, res){
         var admin = req.user;
         var info = {};
@@ -168,6 +169,5 @@ module.exports = function (app, passport) {
     app.get("/create", auth, function(req, res){
         res.sendFile('add_user.html', { root: './public' });
     });
-
 
 };

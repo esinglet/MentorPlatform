@@ -118,6 +118,7 @@ module.exports = {
 		});
 	},
 
+
 	//Create a non-admin user
 	createPerson: function(info, callback){
 
