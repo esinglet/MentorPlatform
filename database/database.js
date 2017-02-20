@@ -70,7 +70,7 @@ module.exports = {
 		});
 	},
 //Creates a user with given info and returns id of new user
-	_passportCreate: function(info, callback){
+	_passportAuthCreate: function(info, callback){
 		var qur = "insert into people (fname, lname, email, password, role, org, active, admin) values(?, ?, ?"+
 			", ?, 2, ?, 1, null)";
 
@@ -116,9 +116,23 @@ module.exports = {
 				return callback(false, isCount(result));
 			}
 		});
+	},
+
+	createUser: function(info, callback){
+		var qur "insert into people (fname, lname, email, role, org, active, admin) values(?, ?, ?"+
+			", ?, ?, ?, 1, ?)";
+
+		var args = [];
+		args.push(info.fname);
+		args.push(info.lname);
+		args.push(info.email);
+		args.push(info.password);
+		args.push(rows.insertId);
 	}
 
 
 };
+
+
 
 //module.exports._passportGetUser(7, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
