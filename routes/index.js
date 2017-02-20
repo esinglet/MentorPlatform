@@ -163,7 +163,7 @@ module.exports = function (app, passport) {
                 console.log(err);
             }
         })
-
+        res.sendFile('add_user.html', { root: './public' });
     });
 
     app.get("/create", auth, function(req, res){
