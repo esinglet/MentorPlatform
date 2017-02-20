@@ -108,7 +108,7 @@ module.exports = function (app, passport) {
     }));
 
     app.post('/login', passport.authenticate('login', {
-        successRedirect: '/loginSuccess',
+        successRedirect: '/create',
         failureRedirect: '/loginFail'
     }));
 
@@ -146,5 +146,28 @@ module.exports = function (app, passport) {
             }
         });
     });
+
+    app.post("/createUser", auth, function(req, res){
+        var admin = req.user;
+        var info = {};
+
+        info.fname = req.body.fname;
+        info.lname = req.body.lname;
+        info.email = req.body.email;
+        info.role = req.body.role;
+        info.org = admin.org;
+        info.admin = admin.id;
+        db.createPerson(info, function(err, rows){
+            if(err){
+                console.log(err);
+            }
+        })
+
+    });
+
+    app.get("/create", auth, function(req, res){
+        res.sendFile('add_user.html', { root: './public' });
+    });
+
 
 };

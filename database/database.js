@@ -118,16 +118,34 @@ module.exports = {
 		});
 	},
 
-	createUser: function(info, callback){
-		var qur "insert into people (fname, lname, email, role, org, active, admin) values(?, ?, ?"+
-			", ?, ?, ?, 1, ?)";
+	//Create a non-admin user
+	createPerson: function(info, callback){
+
+		if(info.role === 2){
+			console.log("Can't create an admin");
+			return callback(true, null);
+		}
+		var qur = "insert into people (fname, lname, email, role, org, active, admin) values(?, ?, ?"+
+			", ?, ?, 1, ?)";
 
 		var args = [];
 		args.push(info.fname);
 		args.push(info.lname);
 		args.push(info.email);
-		args.push(info.password);
-		args.push(rows.insertId);
+		args.push(info.role);
+		args.push(info.org);
+		args.push(info.admin);
+
+		qu(qur, args, function(err, rows){
+			if(err){
+				return callback(err, false);
+			} else{
+				return callback(null, rows);
+			}
+
+		});
+
+
 	},
 	//creates a relationship between 2 specified members of an organization
 	createRelationship: function(info, callback){
@@ -162,10 +180,16 @@ module.exports = {
 		});
 
 	}
-
-
 };
 
 
+var info = {
+	fname: "Evan",
+	lname: "Singleton",
+	email: "a@b.ca",
+	role: 3,
+	org: 5, 
+	admin: 11,
 
-//module.exports._passportGetUser(7, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
+}
+//module.exports.createPerson(info, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
