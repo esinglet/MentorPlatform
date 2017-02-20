@@ -119,7 +119,7 @@ module.exports = {
 	},
 
 	createUser: function(info, callback){
-		var qur "insert into people (fname, lname, email, role, org, active, admin) values(?, ?, ?"+
+		var qur = "insert into people (fname, lname, email, role, org, active, admin) values(?, ?, ?"+
 			", ?, ?, ?, 1, ?)";
 
 		var args = [];

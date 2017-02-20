@@ -85,10 +85,6 @@ module.exports = function (app, passport) {
         res.sendFile('successful_submission.html', { root: './public' });
     });
 
-    app.get('/admin_panel', function (req, res) {
-        res.sendFile('admin_panel.html', { root: './public' });
-    });
-
     //Create  non admin user
     app.post('/create_user', function(req, res){
         db.createUser(req, res);
@@ -145,6 +141,10 @@ module.exports = function (app, passport) {
                 res.json(suc);
             }
         });
+    });
+
+    app.get('/admin_panel', function (req, res) {
+        res.sendFile('admin_dashboard.html', { root: './public' });
     });
 
 };
