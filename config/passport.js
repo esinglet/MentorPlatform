@@ -8,6 +8,8 @@ function hashPassword(password){
 }
 
 function checkPassword(password, hash){
+	console.log(password);
+	console.log(hash);
 	return bcrypt.compareSync(password, hash);
 }
 
@@ -76,6 +78,8 @@ module.exports = function(passport){
 				//User doesnt exist
 				return done(null, false);
 			} else if (checkPassword(password, user.password)){
+				delete user.password;
+				console.log(user);
 				return done(null, user);
 			} else {
 				return done(null, false);
