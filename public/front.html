@@ -31,8 +31,8 @@
             return valid.test(email);
         }
         //Do emails match
-        function match(email1, email2){
-            return (email1 === email2);
+        function match(a, b){
+            return (a === b);
         }
 
 
@@ -75,6 +75,9 @@
         h4{
             text-align: center;
         }
+    .hid { 
+        display: none;
+    }
     </style>
 </head>
 <body>
@@ -104,6 +107,8 @@
                 <label>Organization</label>
                 <input name="org" type="text" placeholder="Last Name" class="form-control">
             </div>
+            <span id="bademail" calss="hid">Please enter a valid email adress.</span>
+            <span id="memail" calss="hid">Please enter a valid email adress.</span>
             <div class="form-group">
                 <label>Enter your email</label>
                 <input id="su-email" name="email" type="text" placeholder="email" class="form-control">
@@ -114,13 +119,14 @@
             </div>
             <br/>
             <br/>
+            <span id="mpass" calss="hid">Your passwords do not match.</span>
             <div class="form-group">
                 <label>Enter a password</label>
-                <input name="password" type="password" placeholder="password" class="form-control">
+                <input id="su-pass" name="password" type="password" placeholder="password" class="form-control">
             </div>
             <div class="form-group">
                 <label>Confirm your password</label>    
-                <input name="cpassword" type="password" placeholder="confirm password" class="form-control">
+                <input id="su-cpass" name="cpassword" type="password" placeholder="confirm password" class="form-control">
             </div>
             <button type="submit" class="btn btn-success">Sign Up</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -233,11 +239,43 @@ IE10 viewport hack for Surface/desktop Windows 8 bug
         $("#su").submit(function(event){
             var email = $('#su-email').val();
             var cemail = $('#su-cemail').val();
+            var pass = $('#su-pass').val();
+            var cpass = $('#su-cpass').val();
+            var fail = false;
+
+
+
             if(!validEmail(email)){
-                console.log("invalid");
-                return true;
+                $("#su-email").val("").end();
+                $("#su-cemail").val("").end();
+                $("#bademail").show();
+                return;
             }
+
+            if(!match(email, cemail)){
+                $("#su-email").val("").end();
+                $("#su-email").val("").end();
+                $("#memail").show();
+                fail = true;
+            }
+
+            if(!match(pass, cpass)){
+                $("#su-pass").val("").end();
+                $("#su-cpass").val("").end();
+                $("#mpass").show();
+                fail = true;
+            }
+
+            if(fail){
+                return;
+            }
+
+            $.post("/testEmail", {email:email},function(data){
+                    console.log(data.result);
+            },"json"); 
+
             console.log("this works");
+
             $.post('signup', $("#su").serialize(), null);
 
         });
