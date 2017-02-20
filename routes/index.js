@@ -45,12 +45,12 @@ module.exports = function (app, passport) {
     });
 
     /*----------- need to add "Auth" to these functions----------------*/
-    app.post('/createRelationship', auth,function(req, res){
+    app.post('/createRelationship',function(req, res){
         db.createRelationship(req, function(err, suc){
             if(err){
                 res.json({result:1});
             } else {
-                res.json({result:0});
+                res.json({result:0}); //todo: apply a success indicator to the page
             }
         });
     });
