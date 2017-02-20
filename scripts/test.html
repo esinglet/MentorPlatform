@@ -1,0 +1,10 @@
+<!doctype html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+console.log("here");
+$.post("127.0.0.1:3000/testEmail", {email:"esinglet@ualberta.ca"},function(data){
+		console.log(data.result);
+	},"json"); 
+</script>
+</html>

@@ -49,7 +49,7 @@
                 $.ajax({
                     type: 'POST',
                     url: "testEmail",
-                    data: {email:encodeURIComponent(email)},
+                    data: {email:URencodeIComponent(email)},
                     success: function(result){
                         console.log(result.result);
                         event.preventDefault();
@@ -78,6 +78,7 @@
     .hid { 
         display: none;
     }
+
     </style>
 </head>
 <body>
@@ -107,8 +108,9 @@
                 <label>Organization</label>
                 <input name="org" type="text" placeholder="Last Name" class="form-control">
             </div>
-            <span id="bademail" calss="hid">Please enter a valid email adress.</span>
-            <span id="memail" calss="hid">Please enter a valid email adress.</span>
+            <span id="bademail" hidden>Please enter a valid email adress.<br></span>
+            <span id="memail" hidden>The email adresses do not match.<br></span>
+            <span id="usedemail" hidden>That email is already in use.<br></span>
             <div class="form-group">
                 <label>Enter your email</label>
                 <input id="su-email" name="email" type="text" placeholder="email" class="form-control">
@@ -119,7 +121,7 @@
             </div>
             <br/>
             <br/>
-            <span id="mpass" calss="hid">Your passwords do not match.</span>
+            <span id="mpass" hidden>Your passwords do not match.</span>
             <div class="form-group">
                 <label>Enter a password</label>
                 <input id="su-pass" name="password" type="password" placeholder="password" class="form-control">
@@ -242,6 +244,10 @@ IE10 viewport hack for Surface/desktop Windows 8 bug
             var pass = $('#su-pass').val();
             var cpass = $('#su-cpass').val();
             var fail = false;
+            $("#bademail").hide();
+            $("#memail").hide();
+            $("#mpass").hide();
+            $("#usedemail").hide();
 
 
 
@@ -249,12 +255,13 @@ IE10 viewport hack for Surface/desktop Windows 8 bug
                 $("#su-email").val("").end();
                 $("#su-cemail").val("").end();
                 $("#bademail").show();
+                event.preventDefault();
                 return;
             }
 
             if(!match(email, cemail)){
                 $("#su-email").val("").end();
-                $("#su-email").val("").end();
+                $("#su-cemail").val("").end();
                 $("#memail").show();
                 fail = true;
             }
@@ -267,16 +274,22 @@ IE10 viewport hack for Surface/desktop Windows 8 bug
             }
 
             if(fail){
+                event.preventDefault();
                 return;
             }
 
             $.post("/testEmail", {email:email},function(data){
-                    console.log(data.result);
+                if(data.result){
+                    $("#su-email").val("").end();
+                    $("#su-cemail").val("").end();
+                    $("#usedemail").show();
+                fail = true;
+                }
             },"json"); 
 
             console.log("this works");
 
-            $.post('signup', $("#su").serialize(), null);
+            //$.post('signup', $("#su").serialize(), null);
 
         });
 
