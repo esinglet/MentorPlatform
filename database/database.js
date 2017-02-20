@@ -8,15 +8,18 @@ var pool =  mysql2.createPool(config["aws"]);
 function qu(qur, args, callback){
 	pool.getConnection(function(err, con){
 		if(err) {
-			callback(err, null);
+			console.log(err);
+			return callback(err, null);
 		}
 
 		con.query(qur, args, function(err, rows){
 			con.release();
 			if(!err) {
-				callback(null, rows);
+
+				return callback(null, rows);
 			} else{
-				callback(err,null);
+				console.log(err);
+				return callback(err,null);
 			}
 		});
 
@@ -57,13 +60,14 @@ module.exports = {
 	},
 //Gets a user by email returns user object with password. returns first if there are many
 	_passportGetUserByEmail: function(email, callback){
-		var qur = "select personid as id, fname, lname, email, role, org, active from people where email = ?";
+		var qur = "select personid as id, fname, lname, password, email, role, org, active from people where email = ?";
 		var args = [email];
 		qu(qur, args, function(err, rows){
 			if(err){
 				return callback(err, false);
 			} 
 			if(rows[0]){
+				console.log(rows[0]);
 				return callback(false, rows[0]);
 			} else{
 				return callback(false, false);
@@ -75,21 +79,38 @@ module.exports = {
 		var qur = "insert into people (fname, lname, email, password, role, org, active, admin) values(?, ?, ?"+
 			", ?, 2, ?, 1, null)";
 
-		var args = [];
-		args.push(info.fname);
-		args.push(info.lname);
-		args.push(info.email);
-		args.push(info.password);
-	    //args.push(info.role);
-		args.push(info.org);
+		var orgQur = "insert into organizations (name) values(?)";
+		var org = [info.org];
+		console.log(org);
 
-		qu(qur, args, function(err, rows){
+
+		qu(orgQur, org, function(err, rows){
+
 			if(err){
-				console.log(err);
+
 				return callback(err, false);
-			} 
-			return callback(false, rows.insertId);
+			}
+			console.log("nnsajdhasjhuj");
+			var args = [];
+			args.push(info.fname);
+			args.push(info.lname);
+			args.push(info.email);
+			args.push(info.password);
+			args.push(rows.insertId);
+			console.log(args[4]);
+
+			qu(qur, args, function(err, rows){
+				if(err){
+					console.log(err);
+					return callback(err, false);
+				} 
+				return callback(false, rows.insertId);
+			});
+
 		});
+
+
+		
 	},
 //Tests is a person with the given email is in database returns true if a user exists in database
 	_passportTestExist: function(email, callback){

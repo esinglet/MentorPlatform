@@ -103,13 +103,13 @@ module.exports = function (app, passport) {
     });
 
     app.post('/signup', passport.authenticate('signup', {
-        successRedirect: '/',
-        failureRedirect: '/'
+        successRedirect: '/signupSuccess',
+        failureRedirect: '/signupFail'
     }));
 
     app.post('/login', passport.authenticate('login', {
-        successRedirect: '/',
-        failureRedirect: '/'
+        successRedirect: '/loginSuccess',
+        failureRedirect: '/loginFail'
     }));
 
     app.post('/testEmail', function(req, res){
