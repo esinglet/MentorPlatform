@@ -48,13 +48,14 @@ module.exports = function(passport){
 				user.lname = req.body.lname;
 				user.email = req.body.email;
 				user.password = hashPassword(req.body.password);
-				user.role = req.body.role;
+				user.role = 2;
 				user.org = req.body.org;
-				db._passportCreate(user, function(err, id){
+				db._passportAdminCreate(user, function(err, id){
 					delete user.password;
 					user.id = id;
+					console.log(user);
 					if(err){
-						return done(err);
+						return done(err, false);
 					} else{
 						return done(null, user);
 					}

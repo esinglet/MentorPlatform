@@ -70,7 +70,7 @@ module.exports = {
 		});
 	},
 //Creates a user with given info and returns id of new user
-	_passportAuthCreate: function(info, callback){
+	_passportAdminCreate: function(info, callback){
 		var qur = "insert into people (fname, lname, email, password, role, org, active, admin) values(?, ?, ?"+
 			", ?, 2, ?, 1, null)";
 

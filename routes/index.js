@@ -24,7 +24,7 @@ module.exports = function (app, passport) {
     //get all people
 
     app.post('/signup', passport.authenticate('signup', {
-        successRedirect: '/signupSuccess',
+        successRedirect: '/create',
         failureRedirect: '/signupFail'
     }));
 
@@ -91,7 +91,7 @@ module.exports = function (app, passport) {
         res.sendFile('add_user.html', { root: './public' });
     });
 
-    app.get("/create", auth, function(req, res){
+    app.get("/create", function(req, res){
         res.sendFile('add_user.html', { root: './public' });
     });
 
