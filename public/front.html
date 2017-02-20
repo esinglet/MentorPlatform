@@ -91,7 +91,7 @@
         <h4 class="modal-title">Sign Up</h4>
       </div>
       <div class="modal-body">
-        <form id="su" action='/signup' method='post'>
+        <form onsubmit="return false;" id="su" action='/signup' method='post'>
             <div class="form-group">
                 <label>First Name</label>
                 <input name="fname" type="text" placeholder="First Name" class="form-control">
@@ -217,37 +217,29 @@ IE10 viewport hack for Surface/desktop Windows 8 bug
         });
 
         //Is Signup valid
-        function validSU(){
-            var email = document.forms["su"]["email"].value;
-            var cemail = document.forms["su"]["cemail"].value;     
+        // $(document).on("submit", '#su', function(){
+        //     var email = $('#su').("email").val();
+        //     var cemail = $('#su').("cemail").val();
+        //     if(!validEmail(email)){
+        //         console.log("invalid");
 
-            
+        //         return;
+        //     } 
+        //     $.post("/testEmail", {email:email},function(data){
+        //         console.log(data.result);
+        //     },"json"); 
+        // });
 
-            if(!validEmail(email)){
-                return false;
-            } 
-            $.ajax({
-              type: 'POST',
-              url: "testEmail",
-              data: {email:encodeURIComponent(email)},
-              success: null,
-              dataType: json,
-              async:false
-            });
-
-
-        }
-        $(document).on("submit", '#su', function(){
-            var email = $('#su').("email").val(),
-                cemail = $('#su').("cemail").val();
+        $("#su").submit(function(){
+            var email = $('#su').("email").val();
+            var cemail = $('#su').("cemail").val();
             if(!validEmail(email)){
                 console.log("invalid");
-                return;
-            } 
-            $.post("/testEmail", {email:email},function(data){
-                console.log(data.result);
-            },"json"); 
-    });
+                return true;
+            }
+            console.log("this works");
+            return false;
+        });
 
 </script>
 </body>
