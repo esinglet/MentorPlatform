@@ -28,7 +28,7 @@
         //Is email valid
         function validEmail(email) {
             var valid = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(email);
+            return valid.test(email);
         }
         //Do emails match
         function match(email1, email2){
@@ -94,7 +94,7 @@
         <form onsubmit="return false;" id="su" action='/signup' method='post'>
             <div class="form-group">
                 <label>First Name</label>
-                <input name="fname" type="text" placeholder="First Name" class="form-control">
+                <input id="su-fname" name="fname" type="text" placeholder="First Name" class="form-control">
             </div>
             <div class="form-group">
                 <label>Last Name</label>
@@ -106,11 +106,11 @@
             </div>
             <div class="form-group">
                 <label>Enter your email</label>
-                <input name="email" type="text" placeholder="email" class="form-control">
+                <input id="su-email" name="email" type="text" placeholder="email" class="form-control">
             </div>
             <div class="form-group">
                 <label>Confirm your email</label>
-                <input name="cemail" type="text" placeholder="comfirm email" class="form-control">
+                <input id="su-cemail" name="cemail" type="text" placeholder="comfirm email" class="form-control">
             </div>
             <br/>
             <br/>
@@ -146,12 +146,12 @@
 
         <div id="navbar" class="navbar-collapse collapse">
         <div>
-            <form class="navbar-form navbar-right">
+            <form action="/login" method="post" class="navbar-form navbar-right">
                 <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control">
+                    <input name="email" type="text" placeholder="Email" class="form-control">
                 </div>
                 <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control">
+                    <input name="password" type="password" placeholder="Password" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-success">Log in</button>
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">Sign up</button>
@@ -230,15 +230,15 @@ IE10 viewport hack for Surface/desktop Windows 8 bug
         //     },"json"); 
         // });
 
-        $("#su").submit(function(){
-            var email = $('#su').("email").val();
-            var cemail = $('#su').("cemail").val();
+        $("#su").submit(function(event){
+            var email = $('#su-email').val();
+            var cemail = $('#su-cemail').val();
             if(!validEmail(email)){
                 console.log("invalid");
                 return true;
             }
             console.log("this works");
-            return false;
+            $.post('signup', $("#su").serialize(), null);
         });
 
 </script>
