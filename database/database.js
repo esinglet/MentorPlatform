@@ -128,6 +128,39 @@ module.exports = {
 		args.push(info.email);
 		args.push(info.password);
 		args.push(rows.insertId);
+	},
+	//creates a relationship between 2 specified members of an organization
+	createRelationship: function(info, callback){
+		//id, mentor, mentee, created, rate, date_start  //rate = number of weeks
+		var qur="insert into relationships values (null, ?, ?, CURDATE(), ?, ? );";
+		var args = [];
+		args.push(info.mentor);
+		args.push(info.mentee);
+		args.push(info.rate);
+		args.push(info.date_start);
+
+		qu(qur, args, function(err, rows){
+			if(err){
+				console.log(err);
+				return callback(err, false);
+			}
+			return callback(false, rows.insertId);
+		});
+	},
+
+	//get people who belong to an org
+	getOrgPeople: function(info, callback){
+		var qur="select personid, fname, lname, email, role, active, admin from people where org=?";
+		var args = [];
+		args.push(info.org);
+		qu(qur, args, function(err, rows){
+			if(err){
+				console.log(err);
+				return callback(err, false);
+			}
+			return callback(false, rows);
+		});
+
 	}
 
 
