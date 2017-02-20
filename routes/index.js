@@ -20,8 +20,10 @@ function auth(req, res, next){
 
 //https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
 module.exports = function (app, passport) {
-    //API ---------------------------------------------------------
-    //get all people
+
+    app.get("/", auth, function(req, res){
+        res.sendFile('front.html', { root: './public' });
+    });
 
     app.post('/signup', passport.authenticate('signup', {
         successRedirect: '/create',
