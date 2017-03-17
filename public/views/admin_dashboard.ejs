@@ -13,7 +13,7 @@
     <title>Odyssey</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="stylesheets/bootstrap_css/bootstrap.min.css" >
+    <link rel="stylesheet" href="../stylesheets/bootstrap_css/bootstrap.min.css" >
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <!--     <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
@@ -71,7 +71,7 @@
             <li><a href="/create">New User</a></li>
         </ul>
         <div>
-            <h4 class="navbar-right login-text"> Your login name</h4>
+            <h4 class="navbar-right login-text"> <%= user.fname+' '+user.lname %></h4>
         </div><!--/.navbar-collapse -->
         </div>
     </div>
