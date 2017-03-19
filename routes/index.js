@@ -22,7 +22,7 @@ function auth(req, res, next){
 module.exports = function (app, passport) {
 
     app.get("/", function(req, res){
-        res.sendFile('front.html', { root: './public' });
+        res.render('front', { root: './public' });
     });
 
     app.post('/signup', passport.authenticate('signup', {
@@ -71,7 +71,7 @@ module.exports = function (app, passport) {
     });
 
     app.get('/admin_panel', auth, function (req, res) {
-        res.sendFile('admin_dashboard.html', { root: './public' });
+        res.render('admin_dashboard', { user: req.user });
     });
 
 
@@ -90,11 +90,11 @@ module.exports = function (app, passport) {
                 console.log(err);
             }
         })
-        res.sendFile('add_user.html', { root: './public' });
+        res.render('add_user');
     });
 
     app.get("/create", auth, function(req, res){
-        res.sendFile('add_user.html', { root: './public' });
+        res.render('add_user', { user: req.user });
     });
 
 };
