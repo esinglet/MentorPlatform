@@ -1,4 +1,4 @@
-var app = angular.module('displayPeople', []);
+var app = angular.module('manageApp', []);
 
 
 //https://www.w3schools.com/angular/angular_routing.asp
@@ -34,7 +34,6 @@ function DisplayPeopleController($scope, $http){
 	};
 
 	$scope.submit = function(){
-		console.log("theh");
 		$http.post('/createUserAng', JSON.stringify($scope.form)).then($scope.load());
 	}
 
