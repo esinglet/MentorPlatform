@@ -39,6 +39,7 @@ app.use(passport.session());
 require('./config/passport')(passport);
 
 
+require('./routes/test')(app)
 require('./routes/index')(app, passport);
 require('./routes/login')(app, passport);
 

@@ -31,7 +31,7 @@ module.exports = function (app, passport) {
     }));
 
     app.post('/login', passport.authenticate('login', {
-        successRedirect: '/create',
+        successRedirect: '/test',
         failureRedirect: '/loginFail'
     }));
 
@@ -97,4 +97,37 @@ module.exports = function (app, passport) {
         res.render('add_user', { user: req.user });
     });
 
+    app.get('/people', auth,  function(req, res){
+        console.log(req.user);
+        db.getOrgPeople(req.user, function(err, rows){
+            if(err){
+                res.json(err);
+                console.log('fdsaf')
+            } else{
+                console.log(rows);
+                console.log('test')
+                res.json(rows);
+            }
+            
+        });
+        
+    });
+
+        app.post("/createUserAng", auth, function(req, res){
+        var admin = req.user;
+        var info = {};
+
+        info.fname = req.body.fname;
+        info.lname = req.body.lname;
+        info.email = req.body.email;
+        info.role = req.body.role;
+        info.org = admin.org;
+        info.admin = admin.id;
+        db.createPerson(info, function(err, rows){
+            if(err){
+                console.log(err);
+            }
+        })
+        res.render('add_user');
+    });
 };
