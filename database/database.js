@@ -167,6 +167,18 @@ module.exports = {
 		});
 	},
 
+	getRelationships: function(info, callback){
+		var qur = "SELECT relid, mentor, mentee, date_created, date_met, email_count, org, active, admin FROM relationships as r join people as p on r.mentee = p.personid";
+
+		qu(qur, args, function(err, rows){
+			if(err){
+				return callback(err, false);
+			}
+			return(false, rows);
+		});
+
+	},
+
 	//get people who belong to an org
 	getOrgPeople: function(info, callback){
 		var qur="select personid, fname, lname, email, role, active, admin from people where org=? and role != 2";
