@@ -8,6 +8,7 @@
   "dependencies": {
     "JSON": "^1.0.0",
     "angular": "^1.6.3",
+    "angular-ui-grid": "^4.0.2",
     "angularjs": "0.0.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",

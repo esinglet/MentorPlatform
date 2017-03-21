@@ -139,14 +139,13 @@
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title c">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-        People</a>
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">People</a>
       </h4>
     </div>
     <div id="collapse1" class="panel-collapse collapse in">
       <div id='demo' class="panel-body" ng-controller="DisplayPeopleController">
       		<div id="userform" class="col-sm-6 c" >
-				<form action="#" ng-submit="submit()">
+				<form ng-submit="submit()">
 					<div class="form-group">
 						<label>First Name</label></br>
 						<input type="text" name="fname" ng-model="form.fname">
@@ -168,7 +167,18 @@
 					<input type="submit" class="btn btn-success" name="submit_survey" value="Submit">
 				</form>
 			</div>
-			<div class="col-sm-6 c" ng-style="formSty">
+
+		  <div ng-controller="MainCtrl">
+			  <button id="refreshButton" type="button" class="btn btn-success" ng-click="refreshData()">Refresh Data</button>  <strong>Calls Pending:</strong> <span ng-bind="callsPending"></span>
+			  <br>
+			  <br>
+			  <strong>{{ myData.length }} rows</strong>
+			  <br>
+			  <div id="grid1" ui-grid="gridOptions" ui-grid-cellNav ui-grid-edit ui-grid-resize-columns ui-grid-pinning ui-grid-selection ui-grid-move-columns ui-grid-importer ui-grid-exporter ui-grid-grouping class="grid"></div>
+		  </div>
+
+
+			<div class="col-sm-6" ng-style="formSty">
 					<ul class="people-scroll">
 						<div ng-repeat="p in people | orderBy:'lname' track by p.personid">
 							<li ng-click="editPerson($event)" ng-attr-id="{{(people.indexOf(p))}}">{{p.lname+", "+p.fname}}</li>

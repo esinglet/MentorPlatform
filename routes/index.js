@@ -59,7 +59,7 @@ module.exports = function (app, passport) {
 
     //test with: curl --data "org=2" http://localhost:3000/getOrgPeople
     //returns a list of people as json
-    app.post('/getOrgPeople', auth, function(req, res){
+    app.post('/getOrgPeople', function(req, res){
         db.getOrgPeople(req.body, function(err, suc){
             if(err){
                 res.json({result:1});
