@@ -36,7 +36,6 @@
             return (a === b);
         }
 
-
             // $("#su").on('submit', function(event) {   
             //     var email = document.forms["#su"]["email"].value;
 
@@ -45,7 +44,6 @@
             //         event.preventDefault();
             //         return;
             //     }
-
 /*
                 $.ajax({
                     type: 'POST',
@@ -60,11 +58,7 @@
                 });*/
             //     event.preventDefault();
             // });
-
-
-
     </script>
-
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -170,7 +164,7 @@
             </form>
             
         </div><!--/.navbar-collapse -->
-        <div>
+        </div>
     </div>
 </nav> 
 
@@ -208,7 +202,7 @@
     <hr>
 
     <footer>
-        <p>&copy; 2016 Company, Inc.</p>
+        <p>&copy; 2017 Odyssey, Inc.</p>
     </footer>
 </div> <!-- /container -->
 
@@ -218,11 +212,13 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-<!-- <script src="../dist/js/bootstrap.min.js"></script>
-IE10 viewport hack for Surface/desktop Windows 8 bug
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script type="text/javascript">
+
+    //TODO: there must be a better way to do this. Also the popup should be changed because it's not necessary.
+    if (location.search.split('loginfail=')[1]) {alert('Please enter a valid username and password');}
+
         $('#myModal').on('hidden.bs.modal', function () {
             $(this).find("input,textarea,select").val('').end();
 

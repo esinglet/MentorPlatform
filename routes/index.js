@@ -13,10 +13,9 @@ function auth(req, res, next){
     if(req.isAuthenticated()){
         return next();
     } else{
-        //TODO redirect to home page (or whatever)
+        res.redirect("/?loginfail="+encodeURIComponent("yes"));
     }
 }
-
 
 //https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
 module.exports = function (app, passport) {
@@ -31,8 +30,8 @@ module.exports = function (app, passport) {
     }));
 
     app.post('/login', passport.authenticate('login', {
-        successRedirect: '/test',
-        failureRedirect: '/loginFail'
+        successRedirect: '/manage',
+        failureRedirect: "/?loginfail="+ encodeURIComponent("yes")
     }));
 
     app.post('/testEmail', function(req, res){
@@ -47,6 +46,10 @@ module.exports = function (app, passport) {
     });
 
     /*----------- need to add "Auth" to these functions----------------*/
+    app.get('/manage', auth, function(req, res){
+        res.render('manage.ejs');
+    })
+
     app.post('/createRelationship', auth, function(req, res){
         db.createRelationship(req.body, function(err, suc){
             if(err){
@@ -59,7 +62,7 @@ module.exports = function (app, passport) {
 
     //test with: curl --data "org=2" http://localhost:3000/getOrgPeople
     //returns a list of people as json
-    app.get('/getOrgPeople', function(req, res){
+    app.get('/getOrgPeople',auth, function(req, res){
         db.getOrgPeople(req.user, function(err, suc){
             if(err){
                 res.json({result:1});
@@ -82,11 +85,6 @@ module.exports = function (app, passport) {
 
     });
 
-    app.get('/admin_panel', auth, function (req, res) {
-        res.render('admin_dashboard', { user: req.user });
-    });
-
-
     app.post("/createUser", auth, function(req, res){
         var admin = req.user;
         var info = {};
@@ -105,10 +103,6 @@ module.exports = function (app, passport) {
         res.json({result:0});
     });
 
-    app.get("/create", auth, function(req, res){
-        res.render('add_user', { user: req.user });
-    });
-
     app.get('/people', auth,  function(req, res){
         console.log(req.user);
         db.getOrgPeople(req.user, function(err, rows){
@@ -125,6 +119,14 @@ module.exports = function (app, passport) {
         
     });
 
-
+    //===================old/ depreciated ===========================
+    //TODO: remove? remember to also remove the view
+    app.get('/admin_panel', auth, function (req, res) {
+        res.render('admin_dashboard', { user: req.user });
+    });
+    //TODO: remove? remember to also remove the view
+    app.get("/create", auth, function(req, res){
+        res.render('add_user', { user: req.user });
+    });
 
 };

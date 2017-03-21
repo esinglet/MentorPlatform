@@ -1,7 +1,5 @@
 module.exports = function(app){
 
-	app.get('/test', function(req, res){
-		res.render('manage.ejs');
-	})
+//======Put any temporary routes for testing here. This should be removable at any time. =======
 	
 }
