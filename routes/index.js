@@ -113,7 +113,7 @@ module.exports = function (app, passport) {
         
     });
 
-        app.post("/createUserAng", auth, function(req, res){
+     app.post("/createUserAng", auth, function(req, res){
         var admin = req.user;
         var info = {};
 
