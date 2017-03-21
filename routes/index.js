@@ -122,11 +122,11 @@ module.exports = function (app, passport) {
     //===================old/ depreciated ===========================
     //TODO: remove? remember to also remove the view
     app.get('/admin_panel', auth, function (req, res) {
-        res.render('admin_dashboard', { user: req.user });
+        res.render('Depreciated/admin_dashboard', { user: req.user });
     });
     //TODO: remove? remember to also remove the view
-    app.get("/create", auth, function(req, res){
-        res.render('add_user', { user: req.user });
+    app.get("/create", function(req, res){
+        res.render('Depreciated/add_user', { user: req.user });
     });
 
 };
