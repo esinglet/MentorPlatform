@@ -31,19 +31,27 @@ function DisplayPeopleController($scope, $http){
 		fname:"",
 		lname:"",
 		email:"",
+		role:"",
 	};
 
 	$scope.submit = function(){
-		$http.post('/createUserAng', JSON.stringify($scope.form)).then($scope.load());
-	}
+		$http.post('/createUser', JSON.stringify($scope.form)).then(function (){
+			$scope.form = {
+				fname:"",
+				lname:"",
+				email:"",
+				role:"",
+			};
+		});
+	};
 
-	var element = angular.element(document.querySelector('#userform')); 
-	var height = element[0].offsetHeight;
-	console.log("Height" + height);
+	// var element = angular.element(document.querySelector('#userform'));
+	// var height = element[0].offsetHeight;
+	// console.log("Height" + height);
 	$scope.load();
 
 	$scope.formSty = {
-		height: height+"px"
+		//height: height+"px"
 	}
 }
 
@@ -70,13 +78,14 @@ app.controller('PersonCtrl',  ['$scope', '$http', '$timeout', '$interval', 'uiGr
 		};
 
 		$scope.gridOptions.columnDefs = [
-			{ name:'personid', width:100 },
-			{ name:'fname', width:100 },
+			{ name:'personid', width:100, enableCellEdit: false },
+			{ name:'fname', width:100, enableCellEdit: true },
 			{ name:'lname', width:100, enableCellEdit: true },
 			{ name:'email', width:100, enableCellEdit: true },
 			{ name:'role', width:100, enableCellEdit: true },
 			{ name:'active', width:100, enableCellEdit: true },
 			{ name:'admin', width:100, enableCellEdit: true }
+
 
 			/*{ name:'address.street', width:150, enableCellEdit: true },
 			{ name:'address.city', width:150, enableCellEdit: true },
@@ -115,11 +124,6 @@ app.controller('PersonCtrl',  ['$scope', '$http', '$timeout', '$interval', 'uiGr
 				.error(function() {
 				});
 
-
-			var timeout = $timeout(function() {
-				$interval.cancel(sec);
-				$scope.left = '';
-			}, 2000);
 
 			$scope.$on('$destroy', function(){
 				$timeout.cancel(timeout);

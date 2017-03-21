@@ -169,7 +169,7 @@ module.exports = {
 
 	//get people who belong to an org
 	getOrgPeople: function(info, callback){
-		var qur="select personid, fname, lname, email, role, active, admin from people where org=?";
+		var qur="select personid, fname, lname, email, role, active, admin from people where org=? and role != 2";
 		var args = [];
 		args.push(info.org);
 		qu(qur, args, function(err, rows){

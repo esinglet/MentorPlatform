@@ -28,7 +28,9 @@
 	<script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
 	<script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
 	<script src="../../node_modules/angular-ui-grid/ui-grid.js"></script>
-	<script src="../../node_modules/angular-ui-grid/ui-grid.css"></script>
+	<!--<script src="../../node_modules/angular-ui-grid/ui-grid.css"></script>-->
+
+	<link rel="stylesheet" href="http://ui-grid.info/release/ui-grid-unstable.css" type="text/css">
 
 	<script type="text/javascript" src="./angular/manage.js"></script>
 
@@ -117,7 +119,7 @@
     </div>
     <div id="collapse1" class="panel-collapse collapse in">
       <div id='demo' class="panel-body" ng-controller="DisplayPeopleController">
-      		<div id="userform" class="col-sm-6 c" >
+      		<div id="userform" class="c " >
 				<form ng-submit="submit()">
 					<div class="form-group">
 						<label>First Name</label></br>
@@ -132,7 +134,7 @@
 						<input type="text" name="email" ng-model="form.email">
 					</div>
 					<div class="form-group">
-						<select name="role">
+						<select name="role" ng-model="form.role">
 							<option value="3">Mentor</option>
 							<option value="4">Mentee</option>
 						</select>
@@ -140,24 +142,17 @@
 					<input type="submit" class="btn btn-success" name="submit_survey" value="Submit">
 				</form>
 			</div>
+		  <br/><br/>
 
 		  <div ng-controller="PersonCtrl">
-			  <button id="refreshButton" type="button" class="btn btn-success" ng-click="refreshData()">Refresh Data</button>  <strong>Calls Pending:</strong> <span ng-bind="callsPending"></span>
+			  <button id="refreshButton" type="button" class="btn btn-success" ng-click="refreshData()">Refresh Data</button>
 			  <br>
 			  <br>
 			  <strong>{{ myData.length }} rows</strong>
 			  <br>
-			  <div id="grid1" ui-grid="gridOptions" ui-grid-cellNav ui-grid-edit ui-grid-resize-columns ui-grid-pinning ui-grid-selection ui-grid-move-columns ui-grid-importer ui-grid-exporter ui-grid-grouping class="grid"></div>
+			  <div id="grid1" ui-grid="gridOptions" ui-grid-cellNav ui-grid-edit ui-grid-resize-columns ui-grid-pinning ui-grid-selection ui-grid-move-columns ui-grid-exporter ui-grid-grouping class="grid"></div>
 		  </div>
 
-
-			<div class="col-sm-6" ng-style="formSty">
-					<ul class="people-scroll">
-						<div ng-repeat="p in people | orderBy:'lname' track by p.personid">
-							<li ng-click="editPerson($event)" ng-attr-id="{{(people.indexOf(p))}}">{{p.lname+", "+p.fname}}</li>
-						</div>
-					</ul>
-			</div>
 		</div>
     </div>
   </div>
