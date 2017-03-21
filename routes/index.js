@@ -64,10 +64,22 @@ module.exports = function (app, passport) {
             if(err){
                 res.json({result:1});
             } else {
-                console.log(suc);
                 res.json(suc);
             }
         });
+    });
+
+    app.get('/getOrgRelationships', auth,  function(req, res){
+        console.log(req.user);
+        db.getOrgRelationships(req.user, function(err, rows){
+            if(err){
+                res.json(err);
+            } else{
+                res.json(rows);
+            }
+
+        });
+
     });
 
     app.get('/admin_panel', auth, function (req, res) {
@@ -112,5 +124,7 @@ module.exports = function (app, passport) {
         });
         
     });
+
+
 
 };
