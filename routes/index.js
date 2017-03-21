@@ -48,7 +48,7 @@ module.exports = function (app, passport) {
 
     /*----------- need to add "Auth" to these functions----------------*/
     app.post('/createRelationship', auth, function(req, res){
-        db.createRelationship(req, function(err, suc){
+        db.createRelationship(req.body, function(err, suc){
             if(err){
                 res.json({result:1});
             } else {

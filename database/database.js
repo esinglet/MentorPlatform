@@ -151,7 +151,7 @@ module.exports = {
 	//creates a relationship between 2 specified members of an organization
 	createRelationship: function(info, callback){
 		//id, mentor, mentee, created, rate, date_start  //rate = number of weeks
-		var qur="insert into relationships values (null, ?, ?, CURDATE(), ?, ? );";
+		var qur="insert into relationships values (null, ?, ?, CURDATE(), ?, ?, NULL, 0);";
 		var args = [];
 		args.push(info.mentor);
 		args.push(info.mentee);

@@ -27,7 +27,7 @@
 	<script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
 	<script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
 	<script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
-	<script src="../../node_modules/angular-ui-grid/ui-grid.js"></script>
+	<script src="../js/ui-grid.js"></script>
 	<!--<script src="../../node_modules/angular-ui-grid/ui-grid.css"></script>-->
 
 	<link rel="stylesheet" href="http://ui-grid.info/release/ui-grid-unstable.css" type="text/css">
@@ -167,24 +167,37 @@
       </h4>
     </div>
     <div id="collapse2" class="panel-collapse collapse">
-   		<div id='demo2' class="c panel-body">
+   		<div id='demo2' class="c panel-body" ng-controller="CreateRelationshipController">
 
-				<div class="col-sm-4 c" ng-style="formSty">
+				<!--<div class="col-sm-4 c" ng-style="formSty">
 					<ul class="people-scroll">
 						<div ng-repeat="p in people | orderBy:'lname' track by p.personid">
 							<li ng-click="editPerson($event)" ng-attr-id="{{(people.indexOf(p))}}">{{p.lname+", "+p.fname}}</li>
 						</div>
 					</ul>
-				</div>
-
-				<div class="col-sm-4 c" ng-style="formSty">
-					<ul class="people-scroll">
-						<div ng-repeat="p in people | orderBy:'lname' track by p.personid">
-							<li ng-click="editPerson($event)" ng-attr-id="{{(people.indexOf(p))}}">{{p.lname+", "+p.fname}}</li>
-						</div>
-					</ul>
-				</div>		
-
+				</div>		-->
+				<form class="container parent-form" ng-submit="submit()">
+    <div class="form-group">
+			<select ng-model="form.mentor" class="mentorList" name="mentor">
+				<option value="{{p.personid}}" ng-repeat="p in people | filter:{role:3}">{{p.lname+", "+p.fname}}</option>
+			</select>
+    	<select ng-model="form.mentee" class="menteeList" name="mentee">
+				<option value="{{p.personid}}" ng-repeat="p in people | filter:{role:4}">{{p.lname+", "+p.fname}}</option>
+			</select>
+		</div>
+        <div class="form-group">
+            <select ng-model="form.rate" autocomplete="off" class="rate" name="rate">
+                <option value="2">2 week</option>
+                <option value="4" selected="selected"> 1 month</option>
+                <option value="8" >2 month</option>
+            </select></div>
+    <div class="form-group">
+            Start Date: <input ng-model="form.date_start" type="date" id="datepicker">
+        </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-success" name="submit_survey" value="Create Relationship">
+    </div>
+</form>
 			</div>
     </div>
   </div>

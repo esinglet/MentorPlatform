@@ -56,7 +56,28 @@ function DisplayPeopleController($scope, $http){
 }
 
 app.controller('DisplayPeopleController', DisplayPeopleController);
-
+app.controller('CreateRelationshipController', function($scope, $http){
+	$http.get('/people').success(function(data, status, headers, config){
+			$scope.people = data;
+	});
+	$scope.form = {
+		mentor:"",
+		mentee:"",
+		date_start:"",
+		rate:"4"
+	};
+	$scope.submit = function(){
+		console.log($scope.form);
+		$http.post('/createRelationship', JSON.stringify($scope.form)).then(function (){
+			$scope.form = {
+				mentor:"",
+				mentee:"",
+				date_start:"",
+				rate:"4"
+			};
+		});
+	}
+});
 app.controller('PersonCtrl',  ['$scope', '$http', '$timeout', '$interval', 'uiGridConstants', 'uiGridGroupingConstants',
 	function ($scope, $http, $timeout, $interval, uiGridConstants, uiGridGroupingConstants) {
 
