@@ -216,8 +216,15 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
-    //TODO: there must be a better way to do this. Also the popup should be changed because it's not necessary.
-    if (location.search.split('loginfail=')[1]) {alert('Please enter a valid username and password');}
+    //TODO: popup should be changed to a dom element because it's not necessary.
+    if (location.search.split('loginfail=')[1]) {
+        try {
+            alert('Please enter a valid username and password');
+        }
+        finally{
+            location.search = "";
+        }
+    }
 
         $('#myModal').on('hidden.bs.modal', function () {
             $(this).find("input,textarea,select").val('').end();
