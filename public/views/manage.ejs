@@ -58,6 +58,9 @@
 			background-color: #50EBEC;
 			border: 1px solid black;
 		}
+		.login-text{
+			color: white;
+		}
 
 	</style>
 
@@ -84,10 +87,12 @@
 
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-				<li class="active"><a href="/admin_panel">Manage</a></li>
-				<li><a href="/meeting_panal">Meetings</a></li>
-				<li><a href="/archive_panal">Archive</a></li>
+				<li class="active"><a href="/manage">Manage</a></li>
+				<li><a href="/test_mentorSurvey">Test_Survey</a></li>
 				</ul>
+				<div>
+					<h4 class="navbar-right login-text"> <%= user.fname+' '+user.lname %></h4>
+				</div>
 			</div>
 		</div>
 	</nav> 

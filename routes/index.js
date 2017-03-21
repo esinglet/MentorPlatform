@@ -47,7 +47,7 @@ module.exports = function (app, passport) {
 
     /*----------- need to add "Auth" to these functions----------------*/
     app.get('/manage', auth, function(req, res){
-        res.render('manage.ejs');
+        res.render('manage.ejs', { user: req.user });
     })
 
     app.post('/createRelationship', auth, function(req, res){
