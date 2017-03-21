@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!--     <link rel="icon" href="../../favicon.ico"> -->
+	<title>Odyssey</title>
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="../stylesheets/bootstrap_css/bootstrap.min.css" >
+
+	<!-- TODO: update these to be local-->
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-touch.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
+	<script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+	<script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
+	<script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+	<script src="../js/ui-grid.js"></script>
+	<!--<script src="../../node_modules/angular-ui-grid/ui-grid.css"></script> TODO: put this back-->
+
+	<link rel="stylesheet" href="http://ui-grid.info/release/ui-grid-unstable.css" type="text/css">
+
+	<script type="text/javascript" src="./angular/manage.js"></script>
+
+	<style>
+		body {
+			padding-top: 60px;
+		}
+		.col-centered{
+			float: none;
+			margin: 0 auto;
+			text-align: center;
+		}
+
+		.frm-brd{
+			border-radius: 25px;
+			border: 2px solid #4d4d4d;
+			padding: 20px; 
+			width: 60%;
+			box-shadow: 10px 10px 5px #888888;
+		}
+
+		.c{
+			text-align: center;
+		}
+
+		.people-scroll{
+			overflow-y: scroll;
+			height: 100%;
+			list-style-type: none;
+		}
+
+		.person{
+			background-color: #50EBEC;
+			border: 1px solid black;
+		}
+
+	</style>
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Odyssey</a>
+			</div>
+
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+				<li class="active"><a href="/admin_panel">Manage</a></li>
+				<li><a href="/meeting_panal">Meetings</a></li>
+				<li><a href="/archive_panal">Archive</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav> 
+	<div class="container">
+
+
+<div class="panel-group" ng-app="manageApp" id="accordion">
+
+	<!--PEOPLE SECTION ================================================================== -->
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title c">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">People</a>
+      </h4>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse in">
+      <div id='demo' class="panel-body" ng-controller="DisplayPeopleController">
+      		<div id="userform" class="c " >
+				<form ng-submit="submit()">
+					<div class="form-group">
+						<label>First Name</label></br>
+						<input type="text" name="fname" ng-model="form.fname">
+					</div>
+					<div class="form-group">
+						<label>Last Name</label></br>
+						<input type="text" name="lname" ng-model="form.lname">
+					</div>
+					<div class="form-group">
+						<label>Email</label></br>
+						<input type="text" name="email" ng-model="form.email">
+					</div>
+					<div class="form-group">
+						<select name="role" ng-model="form.role">
+							<option value="3">Mentor</option>
+							<option value="4">Mentee</option>
+						</select>
+					</div>
+					<input type="submit" class="btn btn-success" name="submit_survey" value="Submit">
+				</form>
+			</div>
+		  <br/><br/>
+
+		  <div ng-controller="PersonCtrl">
+			  <button id="refreshButton" type="button" class="btn btn-success" ng-click="refreshData()">Refresh Data</button>
+			  <br>
+			  <br>
+			  <strong>{{ myData.length }} rows</strong>
+			  <br>
+			  <div id="grid1" ui-grid="gridOptions" ui-grid-cellNav ui-grid-edit ui-grid-resize-columns ui-grid-pinning ui-grid-selection ui-grid-move-columns ui-grid-exporter ui-grid-grouping class="grid"></div>
+		  </div>
+
+		</div>
+    </div>
+  </div>
+
+<!--RELATIONSHIPS SECTION ===================================================================== -->
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title c">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+        Relationships</a>
+      </h4>
+    </div>
+    <div id="collapse2" class="panel-collapse collapse">
+
+		<!--Form to create relationships. only has people from when the page was initially loaded -->
+
+   		<div id='demo2' class="c panel-body" ng-controller="CreateRelationshipController">
+			<form class="container parent-form" ng-submit="submit()">
+				<div class="form-group">
+					<select ng-model="form.mentor" class="mentorList" name="mentor">
+						<option value="{{p.personid}}" ng-repeat="p in people | filter:{role:3}">{{p.lname+", "+p.fname}}</option>
+					</select>
+					<select ng-model="form.mentee" class="menteeList" name="mentee">
+						<option value="{{p.personid}}" ng-repeat="p in people | filter:{role:4}">{{p.lname+", "+p.fname}}</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select ng-model="form.rate" autocomplete="off" class="rate" name="rate">
+						<option value="2">2 week</option>
+						<option value="4" selected="selected"> 1 month</option>
+						<option value="8" >2 month</option>
+					</select></div>
+				<div class="form-group">
+					Start Date: <input ng-model="form.date_start" type="date" id="datepicker">
+				</div>
+				<div class="form-group">
+					<input type="submit" class="btn btn-success" name="submit_survey" value="Create Relationship">
+				</div>
+			</form>
+		</div>
+
+		<!--Dispaly the relationships in a grid -->
+		<div ng-controller="DisplayRelationshipCtrl">
+			<button id="refreshButton" type="button" class="btn btn-success" ng-click="refreshData()">Refresh Data</button>
+			<br>
+			<br>
+			<strong>{{ myData.length }} rows</strong>
+			<br>
+			<div id="grid1" ui-grid="gridOptions" ui-grid-cellNav ui-grid-edit ui-grid-resize-columns ui-grid-pinning ui-grid-selection ui-grid-move-columns ui-grid-exporter ui-grid-grouping class="grid"></div>
+		</div>
+
+    </div>
+  </div>
+	
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Collapsible Group 3</a>
+      </h4>
+    </div>
+    <div id="collapse3" class="panel-collapse collapse">
+      <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+		<footer>
+			<dir class="pull-right">
+				<p>&copy; 2017 Odyssey, Inc.</p>
+			</dir>
+		</footer>
+	</div> <!-- /container -->
+
+
+<!-- Bootstrap core JavaScript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<!--as of march 21, this is only here for the accordian views-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<!-- <script src="../dist/js/bootstrap.min.js"></script>
+IE10 viewport hack for Surface/desktop Windows 8 bug
+<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -13,10 +13,9 @@ function auth(req, res, next){
     if(req.isAuthenticated()){
         return next();
     } else{
-        //TODO redirect to home page (or whatever)
+        res.redirect("/?loginfail="+encodeURIComponent("yes"));
     }
 }
-
 
 //https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
 module.exports = function (app, passport) {
@@ -31,8 +30,8 @@ module.exports = function (app, passport) {
     }));
 
     app.post('/login', passport.authenticate('login', {
-        successRedirect: '/create',
-        failureRedirect: '/loginFail'
+        successRedirect: '/manage',
+        failureRedirect: "/?loginfail="+ encodeURIComponent("yes")
     }));
 
     app.post('/testEmail', function(req, res){
@@ -47,8 +46,12 @@ module.exports = function (app, passport) {
     });
 
     /*----------- need to add "Auth" to these functions----------------*/
+    app.get('/manage', auth, function(req, res){
+        res.render('manage.ejs');
+    })
+
     app.post('/createRelationship', auth, function(req, res){
-        db.createRelationship(req, function(err, suc){
+        db.createRelationship(req.body, function(err, suc){
             if(err){
                 res.json({result:1});
             } else {
@@ -59,21 +62,28 @@ module.exports = function (app, passport) {
 
     //test with: curl --data "org=2" http://localhost:3000/getOrgPeople
     //returns a list of people as json
-    app.post('/getOrgPeople', auth, function(req, res){
-        db.getOrgPeople(req.body, function(err, suc){
+    app.get('/getOrgPeople',auth, function(req, res){
+        db.getOrgPeople(req.user, function(err, suc){
             if(err){
                 res.json({result:1});
             } else {
-                console.log(suc);
                 res.json(suc);
             }
         });
     });
 
-    app.get('/admin_panel', auth, function (req, res) {
-        res.render('admin_dashboard', { user: req.user });
-    });
+    app.get('/getOrgRelationships', auth,  function(req, res){
+        console.log(req.user);
+        db.getOrgRelationships(req.user, function(err, rows){
+            if(err){
+                res.json(err);
+            } else{
+                res.json(rows);
+            }
 
+        });
+
+    });
 
     app.post("/createUser", auth, function(req, res){
         var admin = req.user;
@@ -90,9 +100,31 @@ module.exports = function (app, passport) {
                 console.log(err);
             }
         })
-        res.render('add_user');
+        res.json({result:0});
     });
 
+    app.get('/people', auth,  function(req, res){
+        console.log(req.user);
+        db.getOrgPeople(req.user, function(err, rows){
+            if(err){
+                res.json(err);
+                console.log('fdsaf')
+            } else{
+                console.log(rows);
+                console.log('test')
+                res.json(rows);
+            }
+            
+        });
+        
+    });
+
+    //===================old/ depreciated ===========================
+    //TODO: remove? remember to also remove the view
+    app.get('/admin_panel', auth, function (req, res) {
+        res.render('admin_dashboard', { user: req.user });
+    });
+    //TODO: remove? remember to also remove the view
     app.get("/create", auth, function(req, res){
         res.render('add_user', { user: req.user });
     });

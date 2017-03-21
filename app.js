@@ -10,7 +10,7 @@ var session  = require('express-session');
 
 var app = express();
 
-
+app.use("/node_modules", express.static('node_modules'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'public/views'));
@@ -39,6 +39,7 @@ app.use(passport.session());
 require('./config/passport')(passport);
 
 
+require('./routes/test')(app)
 require('./routes/index')(app, passport);
 require('./routes/login')(app, passport);
 

@@ -24,6 +24,7 @@
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+
     <script type="text/javascript">
         //Is email valid
         function validEmail(email) {
@@ -31,10 +32,9 @@
             return valid.test(email);
         }
         //Do emails match
-        function match(email1, email2){
-            return (email1 === email2);
+        function match(a, b){
+            return (a === b);
         }
-
 
             // $("#su").on('submit', function(event) {   
             //     var email = document.forms["#su"]["email"].value;
@@ -44,12 +44,11 @@
             //         event.preventDefault();
             //         return;
             //     }
-
 /*
                 $.ajax({
                     type: 'POST',
                     url: "testEmail",
-                    data: {email:encodeURIComponent(email)},
+                    data: {email:URencodeIComponent(email)},
                     success: function(result){
                         console.log(result.result);
                         event.preventDefault();
@@ -59,11 +58,7 @@
                 });*/
             //     event.preventDefault();
             // });
-
-
-
     </script>
-
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -75,6 +70,10 @@
         h4{
             text-align: center;
         }
+    .hid { 
+        display: none;
+    }
+
     </style>
 </head>
 <body>
@@ -104,6 +103,9 @@
                 <label>Organization</label>
                 <input name="org" type="text" placeholder="Last Name" class="form-control">
             </div>
+            <span id="bademail" hidden>Please enter a valid email adress.<br></span>
+            <span id="memail" hidden>The email adresses do not match.<br></span>
+            <span id="usedemail" hidden>That email is already in use.<br></span>
             <div class="form-group">
                 <label>Enter your email</label>
                 <input id="su-email" name="email" type="text" placeholder="email" class="form-control">
@@ -114,13 +116,14 @@
             </div>
             <br/>
             <br/>
+            <span id="mpass" hidden>Your passwords do not match.</span>
             <div class="form-group">
                 <label>Enter a password</label>
-                <input name="password" type="password" placeholder="password" class="form-control">
+                <input id="su-pass" name="password" type="password" placeholder="password" class="form-control">
             </div>
             <div class="form-group">
                 <label>Confirm your password</label>    
-                <input name="cpassword" type="password" placeholder="confirm password" class="form-control">
+                <input id="su-cpass" name="cpassword" type="password" placeholder="confirm password" class="form-control">
             </div>
             <button type="submit" class="btn btn-success">Sign Up</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -135,13 +138,16 @@
     <div class="container">
 
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<!--             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Odyssey</a>
+            </button> -->
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Odyssey</a>
+            </div>
+            
         </div>
 
         <div id="navbar" class="navbar-collapse collapse">
@@ -158,7 +164,7 @@
             </form>
             
         </div><!--/.navbar-collapse -->
-        <div>
+        </div>
     </div>
 </nav> 
 
@@ -196,7 +202,7 @@
     <hr>
 
     <footer>
-        <p>&copy; 2016 Company, Inc.</p>
+        <p>&copy; 2017 Odyssey, Inc.</p>
     </footer>
 </div> <!-- /container -->
 
@@ -206,11 +212,13 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-<!-- <script src="../dist/js/bootstrap.min.js"></script>
-IE10 viewport hack for Surface/desktop Windows 8 bug
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script type="text/javascript">
+
+    //TODO: there must be a better way to do this. Also the popup should be changed because it's not necessary.
+    if (location.search.split('loginfail=')[1]) {alert('Please enter a valid username and password');}
+
         $('#myModal').on('hidden.bs.modal', function () {
             $(this).find("input,textarea,select").val('').end();
 
@@ -233,12 +241,55 @@ IE10 viewport hack for Surface/desktop Windows 8 bug
         $("#su").submit(function(event){
             var email = $('#su-email').val();
             var cemail = $('#su-cemail').val();
+            var pass = $('#su-pass').val();
+            var cpass = $('#su-cpass').val();
+            var fail = false;
+            $("#bademail").hide();
+            $("#memail").hide();
+            $("#mpass").hide();
+            $("#usedemail").hide();
+
+
+
             if(!validEmail(email)){
-                console.log("invalid");
-                return true;
+                $("#su-email").val("").end();
+                $("#su-cemail").val("").end();
+                $("#bademail").show();
+                event.preventDefault();
+                return;
             }
+
+            if(!match(email, cemail)){
+                $("#su-email").val("").end();
+                $("#su-cemail").val("").end();
+                $("#memail").show();
+                fail = true;
+            }
+
+            if(!match(pass, cpass)){
+                $("#su-pass").val("").end();
+                $("#su-cpass").val("").end();
+                $("#mpass").show();
+                fail = true;
+            }
+
+            if(fail){
+                event.preventDefault();
+                return;
+            }
+
+            $.post("/testEmail", {email:email},function(data){
+                if(data.result){
+                    $("#su-email").val("").end();
+                    $("#su-cemail").val("").end();
+                    $("#usedemail").show();
+                fail = true;
+                }
+            },"json"); 
+
             console.log("this works");
-            $.post('signup', $("#su").serialize(), null);
+
+            //$.post('signup', $("#su").serialize(), null);
 
         });
 
