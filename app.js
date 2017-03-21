@@ -10,7 +10,7 @@ var session  = require('express-session');
 
 var app = express();
 
-
+app.use("/node_modules", express.static('node_modules'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'public/views'));

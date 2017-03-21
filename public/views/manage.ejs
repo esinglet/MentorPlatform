@@ -18,17 +18,19 @@
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<!--     <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
 
-	<!-- Custom styles for this template -->
-	<link href="jumbotron.css" rel="stylesheet">
-	
 
-	<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-	<script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
 
-	<script type="text/javascript" src="./angular/manage.js"></script>	
-	
+	<!-- TODO: update these to be local-->
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-touch.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
+	<script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+	<script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
+	<script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+	<script src="../../node_modules/angular-ui-grid/ui-grid.js"></script>
+	<script src="../../node_modules/angular-ui-grid/ui-grid.css"></script>
+
+	<script type="text/javascript" src="./angular/manage.js"></script>
 
 
 	<style>
@@ -168,7 +170,7 @@
 				</form>
 			</div>
 
-		  <div ng-controller="MainCtrl">
+		  <div ng-controller="PersonCtrl">
 			  <button id="refreshButton" type="button" class="btn btn-success" ng-click="refreshData()">Refresh Data</button>  <strong>Calls Pending:</strong> <span ng-bind="callsPending"></span>
 			  <br>
 			  <br>
