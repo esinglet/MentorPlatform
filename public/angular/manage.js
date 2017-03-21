@@ -202,6 +202,7 @@ app.controller('DisplayRelationshipCtrl',  ['$scope', '$http', '$timeout', '$int
 						row.registered = new Date(row.registered);
 						$scope.myData.push(row);
 					});
+					$scope.myData.grid.refresh(); //this was necessary to show every column on initial load. 
 				})
 				.error(function() {
 				});
