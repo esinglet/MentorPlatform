@@ -167,14 +167,14 @@ module.exports = {
 		});
 	},
 
-	getRelationships: function(info, callback){
-		var qur = "SELECT relid, mentor, mentee, date_created, date_met, email_count, org, active, admin FROM relationships as r join people as p on r.mentee = p.personid";
+	getRelationships: function(callback){
+		var qur = "SELECT relid, mentor, mentee, rate, date_created, date_met, email_count, org, active, admin FROM relationships as r join people as p on r.mentee = p.personid";
 
-		qu(qur, args, function(err, rows){
+		qu(qur, [], function(err, rows){
 			if(err){
 				return callback(err, false);
 			}
-			return(false, rows);
+			return callback(false, rows);
 		});
 
 	},
