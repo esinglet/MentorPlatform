@@ -168,7 +168,16 @@ module.exports = {
 	},
 
 	getRelationships: function(callback){
-		var qur = "SELECT relid, mentor, mentee, rate, date_created, date_met, email_count, org, active, admin FROM relationships as r join people as p on r.mentee = p.personid";
+		var qur = `select relid ,mentor, mentee, date_created, rate, date_start, date_met, 
+		email_count, mentor.personid, mentor.fname, mentor.lname, mentor.email,
+			mentor.role, mentor.org, mentor.active, mentor.admin, mentee.personid as menteeid,
+			mentee.fname as menteefname, mentee.lname as menteelname, mentee.email as menteeemail, 
+			mentee.role as menteerole, mentee.org as menteeorg, mentee.active as menteeactive,
+			mentee.admin as menteeadmin
+		from relationships r 
+			join people mentor on mentor.personid = r.mentor 
+			join people mentee on mentee.personid = r.mentee 
+			where mentor.org = mentee.org `;
 
 		qu(qur, [], function(err, rows){
 			if(err){
@@ -199,18 +208,18 @@ module.exports = {
 	//'10', '47', '48', '2017-03-21', '2', '2017-02-20', NULL, '0', '47', 'hunter', 'Thompson', 'sdfsdfsd@erer', NULL, '3', '9', '1', '20', '48', 'jon', 'jones', 'martion@manhunter.com', NULL, '4', '9', '1', '20'
 
 	getOrgRelationships: function(info, callback){
-		var qur="select relid, mentor, mentee, date_created, rate, date_start, date_met, \
-		email_count, mentor.personid, mentor.fname, mentor.lname, mentor.email,\
-			mentor.role, mentor.org, mentor.active, mentor.admin, mentee.personid as menteeid,\
-			mentee.fname as menteefname, mentee.lname as menteelname, mentee.email as menteeemail, \
-			mentee.role as menteerole, mentee.org as menteeorg, mentee.active as menteeactive,\
-			mentee.admin as menteeadmin\
-		from relationships r \
-			join people mentor on mentor.personid = r.mentor \
-			join people mentee on mentee.personid = r.mentee \
-			where mentor.org = mentee.org \
-			and mentor.org = ? \
-			";
+		var qur=`select relid,mentor, mentee, date_created, rate, date_start, date_met, 
+		email_count, mentor.personid, mentor.fname, mentor.lname, mentor.email,
+			mentor.role, mentor.org, mentor.active, mentor.admin, mentee.personid as menteeid,
+			mentee.fname as menteefname, mentee.lname as menteelname, mentee.email as menteeemail, 
+			mentee.role as menteerole, mentee.org as menteeorg, mentee.active as menteeactive,
+			mentee.admin as menteeadmin
+		from relationships r 
+			join people mentor on mentor.personid = r.mentor 
+			join people mentee on mentee.personid = r.mentee 
+			where mentor.org = mentee.org 
+			and mentor.org = ? 
+			`;
 		var args = [];
 		args.push(info.org);
 		qu(qur, args, function(err, rows){
