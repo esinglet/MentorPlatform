@@ -10,6 +10,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema odyssey_dev
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `odyssey_dev` ;
 
 -- -----------------------------------------------------
 -- Schema odyssey_dev
@@ -20,36 +21,30 @@ USE `odyssey_dev` ;
 -- -----------------------------------------------------
 -- Table `odyssey_dev`.`lu_role`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `odyssey_dev`.`lu_role` ;
-
 CREATE TABLE IF NOT EXISTS `odyssey_dev`.`lu_role` (
   `role_id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`role_id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
 -- Table `odyssey_dev`.`organizations`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `odyssey_dev`.`organizations` ;
-
 CREATE TABLE IF NOT EXISTS `odyssey_dev`.`organizations` (
   `orgid` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(250) NULL DEFAULT NULL,
   PRIMARY KEY (`orgid`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
 -- Table `odyssey_dev`.`people`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `odyssey_dev`.`people` ;
-
 CREATE TABLE IF NOT EXISTS `odyssey_dev`.`people` (
   `personid` INT(11) NOT NULL AUTO_INCREMENT,
   `fname` VARCHAR(150) NULL DEFAULT NULL,
@@ -74,15 +69,13 @@ CREATE TABLE IF NOT EXISTS `odyssey_dev`.`people` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 8
+AUTO_INCREMENT = 51
 DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
 -- Table `odyssey_dev`.`relationships`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `odyssey_dev`.`relationships` ;
-
 CREATE TABLE IF NOT EXISTS `odyssey_dev`.`relationships` (
   `relid` INT(11) NOT NULL AUTO_INCREMENT,
   `mentor` INT(11) NULL DEFAULT NULL,
@@ -90,6 +83,8 @@ CREATE TABLE IF NOT EXISTS `odyssey_dev`.`relationships` (
   `date_created` DATE NULL DEFAULT NULL,
   `rate` INT(11) NULL DEFAULT NULL,
   `date_start` DATE NULL DEFAULT NULL,
+  `date_met` DATE NULL DEFAULT NULL,
+  `email_count` INT(11) NULL DEFAULT '0',
   PRIMARY KEY (`relid`),
   INDEX `fk_mentor_idx` (`mentor` ASC),
   INDEX `fk_mentee_idx` (`mentee` ASC),
@@ -104,14 +99,13 @@ CREATE TABLE IF NOT EXISTS `odyssey_dev`.`relationships` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
 -- Table `odyssey_dev`.`meetings`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `odyssey_dev`.`meetings` ;
-
 CREATE TABLE IF NOT EXISTS `odyssey_dev`.`meetings` (
   `relationship_id` INT(11) NOT NULL,
   `meeting_date` DATE NOT NULL,
@@ -130,14 +124,3 @@ DEFAULT CHARACTER SET = latin1;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-
--- ----------------------------- DATA
-insert into lu_role (name) values ('salt'); 
-insert into lu_role (name) values ('salt');
-insert into lu_role (name) values ('salt');
-insert into lu_role (name) values ('salt');
-
-update lu_role set name="admin" where role_id=2;
-update lu_role set name="mentor" where role_id=3;
-update lu_role set name="mentee" where role_id=4;

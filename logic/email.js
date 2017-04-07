@@ -19,7 +19,13 @@ ses.sendEmail( {
     Destination: { ToAddresses: to },
     Message: {
         Subject: {
-            Data: 'A Message To You Rudy'}, Body: { Text: {Data: 'Stop your messing around' }}}},
+            Data: 'A Message To You Rudy'
+        }, 
+        Body: { 
+            Text: {Data: 'Stop your messing around' }
+        }
+    }
+},
 
 function(err, data) {
     if(err) throw err;
