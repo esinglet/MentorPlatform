@@ -1,7 +1,8 @@
 var cron = require("node-cron");
 var db = require("../database/database.js");
+var email = require("email");
 
-// http://www.nncron.ru/help/EN/working/cron-format.htm
+email.
 
 function testOverdue(rate, dif){
     var range = rate * 7;
@@ -13,15 +14,9 @@ function testOverdue(rate, dif){
     }
 }
 
-
-cron.schedule("50 20 * * *", function(){
-
-});
-
-
-    db.getRelationships(function(err, data){
+var sendEmail = db.getRelationships(function(err, data){
             if(err){
-                /*TODO: Deal with error */
+                throw err;
             } 
             console.log(data);
             var curDate = new Date();
@@ -38,6 +33,12 @@ cron.schedule("50 20 * * *", function(){
                 testOverdue(rel.rate, dif);
             }
     });
+
+
+// http://www.nncron.ru/help/EN/working/cron-format.htm
+cron.schedule("50 20 * * *", function(){
+    sendEmail();
+});
 
 
 
