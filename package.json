@@ -10,6 +10,7 @@
     "angular": "^1.6.3",
     "angular-ui-grid": "^4.0.2",
     "angularjs": "0.0.1",
+    "aws-sdk": "^2.39.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
