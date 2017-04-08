@@ -29,4 +29,3 @@ function(err, data) {
     console.log(data);
 });
 
-function sendEmail() =

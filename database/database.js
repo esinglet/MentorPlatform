@@ -230,6 +230,43 @@ module.exports = {
 			return callback(false, rows);
 		});
 
+	},
+
+	incrimentRelationship: function(relid, callback){
+		var qur = "update relationships set email_count = email_count + 1 where relid = ?;";
+		var args = []; 
+
+		args.push(relid);
+		qu(qur, args, function(err, ret){
+			if(err){
+				console.log(err);
+				return callback(err, false);
+			}
+			return callback(false, ret);
+// 	ret	=   ResultSetHeader {
+//   fieldCount: 0,
+//   affectedRows: 1,
+//   insertId: 0,
+//   info: '(Rows matched: 1  Changed: 1  Warnings: 0',
+//   serverStatus: 2,
+//   warningStatus: 0,
+//   changedRows: 1 }
+
+		});
+	},
+
+	zeroRelationship: function(relid, callback){
+		var qur = "update relationships set email_count = 0 where relid = ?;";
+		var args = []; 
+
+		args.push(relid);
+		qu(qur, args, function(err, ret){
+			if(err){
+				console.log(err);
+				return callback(err, false);
+			}
+			return callback(false, ret);
+		});
 	}
 };
 
@@ -243,4 +280,8 @@ var info = {
 	admin: 11,
 
 }
+
+module.exports.zeroRelationship(14, function(err, res){
+	console.log(res);
+});
 //module.exports.createPerson(info, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
