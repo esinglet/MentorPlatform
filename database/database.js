@@ -41,7 +41,7 @@ module.exports = {
 	_passportGetUser: function(id, callback){
 		var qur = "select personid as id, fname, lname, email, role, org, active from people where personid = ?";
 		var args = [id];
-		qu(qur, args, function(err, rows){
+			qu(qur, args, function(err, rows){
 			if(err){
 				return callback(err, null);
 			}
