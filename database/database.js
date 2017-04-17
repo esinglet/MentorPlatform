@@ -281,7 +281,4 @@ var info = {
 
 }
 
-module.exports.zeroRelationship(14, function(err, res){
-	console.log(res);
-});
 //module.exports.createPerson(info, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
