@@ -22,7 +22,14 @@ cron.schedule("50 20 * * *", function(){
             if(err){
                 //Log error TODO
                 throw err;
-            } 
+            }
+            var admins;
+            db.getAdmins(function (err, data){
+                if (err)
+                    throw err;
+                admins = data;
+            });
+
             var curDate = new Date();
 
             data.map(function(rel){
@@ -50,8 +57,10 @@ cron.schedule("50 20 * * *", function(){
 
                         //send emails with multiple of 3 to the admin
                         if ((rel.email_count+1)%3 === 0){
-                            
-                            email.sendEmail(rel.menteeemail, 'Your Odyssey Mentorship Survey Ready', '');
+                            let subject = `${rel.menteefname}, ${rel.menteelname} is late with their Odyssey Mentorship Survey`;
+                            let body = `Someone is late with their Odyssey Mentorship Survey`;
+
+                            email.sendEmail(admins[rel.org].email, subject, body);
                         }
                     } catch (e){
                         throw e;
