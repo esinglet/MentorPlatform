@@ -52,17 +52,16 @@ cron.schedule("50 20 * * *", function(){
                         db.incrimentRelationship(rel.relid, function(e, ret){
                             if (e)
                                 throw e;
-                            //todo vaidate ret
                         });
 
                         //send emails with multiple of 3 to the admin
                         if ((rel.email_count+1)%3 === 0){
                             let subject = `${rel.menteefname}, ${rel.menteelname} is late with their Odyssey Mentorship Survey`;
                             let body = `Someone is late with their Odyssey Mentorship Survey`;
-
                             email.sendEmail(admins[rel.org].email, subject, body);
                         }
                     } catch (e){
+                        //todo: any email errors should be handled here
                         throw e;
                     }
                 }
