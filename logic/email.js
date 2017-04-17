@@ -1,16 +1,10 @@
 var aws = require('aws-sdk');
-
-// load config
 var config =require('../config/config.json');
 aws.config.update(config["ses"]);
-
-// load AWS SES
 var ses = new aws.SES({apiVersion: '2010-12-01'});
 
-// send to list
-var to = ['success@simulator.amazonses.com'];
+// email address configured with AWS
 var from = 'noreply@odysseymentorship.com';
-
 
 module.exports = {
     sendEmail: function(to, subject, body) {
