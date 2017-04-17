@@ -23,8 +23,6 @@ module.exports = {
             },
             function(err, data) {
                 if(err) throw err;
-                //todo: increment the email count + save a record of the link in the database
-                //todo: we should probably log the email in a file somewhere, if that's possible
 
                 console.log('Email sent:');
                 console.log(data);

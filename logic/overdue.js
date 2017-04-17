@@ -36,9 +36,26 @@ cron.schedule("50 20 * * *", function(){
 
                 console.log(dif);
                 if(testOverdue(rel.rate, dif)){
-                    //Send email
-                    //increment
-                    //if count = 3 send to emily
+                    try {
+                        //Send email
+                        email.sendEmail([rel.email], 'Your Odyssey Mentorship Survey Ready', ''); //todo: get token link for survey
+                        email.sendEmail(rel.menteeemail, 'Your Odyssey Mentorship Survey Ready', '');
+
+                        //increment email count
+                        db.incrimentRelationship(rel.relid, function(e, ret){
+                            if (e)
+                                throw e;
+                            //todo vaidate ret
+                        });
+
+                        //send emails with multiple of 3 to the admin
+                        if ((rel.email_count+1)%3 === 0){
+                            
+                            email.sendEmail(rel.menteeemail, 'Your Odyssey Mentorship Survey Ready', '');
+                        }
+                    } catch (e){
+                        throw e;
+                    }
                 }
             });
     });
