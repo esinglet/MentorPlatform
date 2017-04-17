@@ -267,6 +267,23 @@ module.exports = {
 			}
 			return callback(false, ret);
 		});
+	}, 
+
+	getAdmins: function(callback){
+		var qur = "select * from people where role = 2"
+		var dict = {};
+
+		qu(qur, [], function(err, ret){
+			if(err){
+				return callback(err, null);
+			}
+			
+			ret.map(function(arg){
+				dict[arg.org] = arg;
+			})
+
+			return callback(null, dict);
+		});
 	}
 };
 
@@ -281,4 +298,7 @@ var info = {
 
 }
 
+// module.exports.getAdmins(function(err, res){
+// 	console.log(res);
+});
 //module.exports.createPerson(info, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
