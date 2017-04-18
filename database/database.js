@@ -298,8 +298,8 @@ var info = {
 
 }
 
- var res = module.exports.getAdmins();
- 	res.then(function(dict){
-		console.log( dict);
-	});
+ //var res = module.exports.getAdmins();
+ //	res.then(function(dict){
+//		console.log( dict);
+//	});
 //module.exports.createPerson(info, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
