@@ -271,19 +271,19 @@ module.exports = {
 
 	getAdmins: function(){
 		var qur = "select * from people where role = 2"
-
-		return qu(qur, [], function(err, ret){
-			var dict = {};
-			if(err){
-				throw err;
-			}
-			
-			ret.map(function(arg){
-				dict[arg.org] = arg;
-			})
-
-			return dict;
+		var p = new Promise(function(resolve, reject) {
+			qu(qur, [], function (err, ret) {
+				var dict = {};
+				if (err) {
+					reject(err);
+				}
+				ret.map(function (arg) {
+					dict[arg.org] = arg;
+				});
+				resolve(dict);
+			});
 		});
+		return p;
 	}
 };
 
@@ -299,5 +299,7 @@ var info = {
 }
 
  var res = module.exports.getAdmins();
- 	console.log(res);
+ 	res.then(function(dict){
+		console.log( dict);
+	});
 //module.exports.createPerson(info, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
