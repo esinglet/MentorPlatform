@@ -5,7 +5,6 @@ var email = require("./email");
 //we expect rate to be rate*emails sent to ensure that emails are not sent everyday
 function testOverdue(rate, dif){
     var range = rate * 7;
-    console.log(range);
     if(dif >= range){
         return true;
     } else{
@@ -14,7 +13,7 @@ function testOverdue(rate, dif){
 }
 
 // http://www.nncron.ru/help/EN/working/cron-format.htm
-cron.schedule("* * * * * *", function(){
+cron.schedule("* * * * *", function(){
     db.getRelationships(function(err, data){
             if(err){
                 //Log error TODO
@@ -22,7 +21,6 @@ cron.schedule("* * * * * *", function(){
             }
             db.getAdmins().then(function(admins){
                 var curDate = new Date();
-
                 data.map(function(rel){
                     let date;
                     if(rel.date_met){
@@ -31,13 +29,14 @@ cron.schedule("* * * * * *", function(){
                         date = rel.date_start;
                     }
                     let dif = (curDate.getTime() - Date.parse(date))/(60*60*24*1000);
-                    console.log(dif);
-
-                    if(testOverdue((rel.email_count!=0)? rel.rate*rel.email_count :rel.rate, dif)){
+                    let rate = (rel.email_count!=0)? rel.rate*rel.email_count :rel.rate;
+                    console.log('rate '+rate);
+                    if(testOverdue(rate, dif)){
                         try {
+                            console.log("here");
                             //Send email
                             //email.sendEmailMesg([rel.email], 'Your Odyssey Mentorship Survey Ready', ''); //todo: get token link for survey
-                            email.sendEmailMesg([rel.menteeemail], 'Your Odyssey Mentorship Survey Ready', 'email body');
+                            //email.sendEmailMesg([rel.menteeemail], 'Your Odyssey Mentorship Survey Ready', 'email body');
 
                             //increment email count
                             db.incrimentRelationship(rel.relid, function(e, ret){
@@ -49,7 +48,7 @@ cron.schedule("* * * * * *", function(){
                             if ((rel.email_count+1)%3 === 0){
                                 let subject = `${rel.menteefname} ${rel.menteelname} is late with their Odyssey Mentorship Survey`;
                                 let body = `Someone is late with their Odyssey Mentorship Survey`;
-                                email.sendEmailMesg([admins[rel.org].email], subject, body);
+                                //email.sendEmailMesg([admins[rel.org].email], subject, body);
                             }
                         } catch (e){
                             //todo: any email errors should be handled here
@@ -57,9 +56,9 @@ cron.schedule("* * * * * *", function(){
                         }
                     }
                 });
+            }).catch(function(err){
+                throw err;
             });
-
-
     });
 });
 
