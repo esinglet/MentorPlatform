@@ -7,7 +7,7 @@ var ses = new aws.SES({apiVersion: '2010-12-01'});
 var from = 'noreply@odysseymentorship.com';
 
 module.exports = {
-    sendEmail: function(to, subject, body) {
+    sendEmailMesg: function(to, subject, body) {
         //the subject needs to include a link with a query parameter which corresponds to one in the database
         ses.sendEmail( {
                 Source: from,

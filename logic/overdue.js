@@ -14,18 +14,13 @@ function testOverdue(rate, dif){
 }
 
 // http://www.nncron.ru/help/EN/working/cron-format.htm
-cron.schedule("07 18 * * *", function(){
+cron.schedule("43 18 * * * *", function(){
     db.getRelationships(function(err, data){
             if(err){
                 //Log error TODO
                 throw err;
             }
-            var admins;
-            db.getAdmins(function (err, data){
-                if (err)
-                    throw err;
-                admins = data;
-            });
+            var admins = db.getAdmins();
 
             var curDate = new Date();
 
@@ -42,8 +37,10 @@ cron.schedule("07 18 * * *", function(){
                 if(testOverdue((rel.email_count!=0)? rel.rate*rel.email_count :rel.rate, dif)){
                     try {
                         //Send email
-                        email.sendEmail([rel.email], 'Your Odyssey Mentorship Survey Ready', ''); //todo: get token link for survey
-                        email.sendEmail(rel.menteeemail, 'Your Odyssey Mentorship Survey Ready', '');
+                        //email.sendEmailMesg([rel.email], 'Your Odyssey Mentorship Survey Ready', ''); //todo: get token link for survey
+                        console.log('about to sent an email:'+rel.menteeemail);
+                        email.sendEmailMesg([rel.menteeemail], 'Your Odyssey Mentorship Survey Ready', 'email body');
+                        console.log('email away');
 
                         //increment email count
                         db.incrimentRelationship(rel.relid, function(e, ret){
@@ -55,7 +52,7 @@ cron.schedule("07 18 * * *", function(){
                         if ((rel.email_count+1)%3 === 0){
                             let subject = `${rel.menteefname}, ${rel.menteelname} is late with their Odyssey Mentorship Survey`;
                             let body = `Someone is late with their Odyssey Mentorship Survey`;
-                            email.sendEmail(admins[rel.org].email, subject, body);
+                            email.sendEmailMesgendEmail([admins[rel.org].email], subject, body);
                         }
                     } catch (e){
                         //todo: any email errors should be handled here
