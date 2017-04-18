@@ -11,6 +11,12 @@
             "program": "${workspaceRoot}\\bin\\www"
         },
         {
+           "type": "node",
+            "request": "launch",
+            "name": "Launch Overdue",
+            "program": "${workspaceRoot}\\logic\\overdue.js" 
+        },
+        {
             "type": "node",
             "request": "attach",
             "name": "Attach to Process",
