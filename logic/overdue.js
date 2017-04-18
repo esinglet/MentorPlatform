@@ -13,8 +13,9 @@ function testOverdue(rate, dif){
     }
 }
 
-// http://www.nncron.ru/help/EN/working/cron-format.htm
-cron.schedule("* * * * * *", function(){
+//No leading zero, 
+//see: https://www.npmjs.com/package/node-cron
+cron.schedule("1 17 20 * * *", function(){
     db.getRelationships(function(err, data){
             if(err){
                 //Log error TODO
