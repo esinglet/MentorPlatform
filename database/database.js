@@ -271,9 +271,9 @@ module.exports = {
 
 	getAdmins: function(){
 		var qur = "select * from people where role = 2"
-		var dict = {};
 
 		return qu(qur, [], function(err, ret){
+			var dict = {};
 			if(err){
 				throw err;
 			}
