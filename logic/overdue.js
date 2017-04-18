@@ -1,8 +1,8 @@
 var cron = require("node-cron");
 var db = require("../database/database.js");
-var email = require("email");
+var email = require("./email");
 
-
+//we expect rate to be rate*emails sent to ensure that emails are not sent everyday
 function testOverdue(rate, dif){
     var range = rate * 7;
     console.log(range);
@@ -13,11 +13,8 @@ function testOverdue(rate, dif){
     }
 }
 
-
-
-
 // http://www.nncron.ru/help/EN/working/cron-format.htm
-cron.schedule("50 20 * * *", function(){
+cron.schedule("07 18 * * *", function(){
     db.getRelationships(function(err, data){
             if(err){
                 //Log error TODO
@@ -37,12 +34,12 @@ cron.schedule("50 20 * * *", function(){
                 if(rel.date_met){
                     date = rel.date_met;
                 } else{
-                    date = rel.date_created;
+                    date = rel.date_start;
                 }
                 let dif = (curDate.getTime() - Date.parse(date))/(60*60*24*1000);
 
                 console.log(dif);
-                if(testOverdue(rel.rate, dif)){
+                if(testOverdue((rel.email_count!=0)? rel.rate*rel.email_count :rel.rate, dif)){
                     try {
                         //Send email
                         email.sendEmail([rel.email], 'Your Odyssey Mentorship Survey Ready', ''); //todo: get token link for survey
