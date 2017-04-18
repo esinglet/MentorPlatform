@@ -269,20 +269,20 @@ module.exports = {
 		});
 	}, 
 
-	getAdmins: function(callback){
+	getAdmins: function(){
 		var qur = "select * from people where role = 2"
 		var dict = {};
 
-		qu(qur, [], function(err, ret){
+		return qu(qur, [], function(err, ret){
 			if(err){
-				return callback(err, null);
+				throw err;
 			}
 			
 			ret.map(function(arg){
 				dict[arg.org] = arg;
 			})
 
-			return callback(null, dict);
+			return dict;
 		});
 	}
 };
