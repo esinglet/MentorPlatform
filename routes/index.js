@@ -105,7 +105,7 @@ module.exports = function (app, passport) {
             if(err){
                 console.log(err);
             }
-        })
+        });
         res.json({result:0});
     });
 
@@ -117,13 +117,20 @@ module.exports = function (app, passport) {
                 console.log('fdsaf')
             } else{
                 console.log(rows);
-                console.log('test')
+                console.log('test');
                 res.json(rows);
             }
             
         });
         
     });
+
+
+    app.get('/survey/:surveyId', function(req, res){
+        console.log(req.params.surveyId);
+        
+    });
+
 
     //===================old/ depreciated ===========================
     //TODO: remove? remember to also remove the view

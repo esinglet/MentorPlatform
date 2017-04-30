@@ -27,5 +27,10 @@ module.exports = {
                 console.log('Email sent:');
                 console.log(data);
             });
+    },
+
+    generateEmailToken: function(){
+        return crypto.randomBytes(20).toString('hex');
     }
+
 };
