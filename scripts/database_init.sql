@@ -136,3 +136,7 @@ DEFAULT CHARACTER SET = latin1;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+insert into lu_role (role_id, name) values(2, "admin");
+insert into lu_role (role_id, name) values(3, "mentor");
+insert into lu_role (role_id, name) values(4, "mentee");
