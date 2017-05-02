@@ -36,8 +36,19 @@ cron.schedule("1 17 20 * * *", function(){
                     if(testOverdue(rate, dif)){
                         try {
                             console.log("here");
+<<<<<<< HEAD
                             //Send email only mentee
                             email.sendEmailMesg([rel.menteeemail], 'Your Odyssey Mentorship Survey Ready', 'email body');
+=======
+                            //Send email
+                            db.createSurvey(email.generateEmailToken(),rel.relid).then(function(ret) {
+                                console.log('generate email token return: ',ret);
+                            }).catch(function(err){
+                                if (err){throw err;}
+                            });
+                            //email.sendEmailMesg([rel.email], 'Your Odyssey Mentorship Survey Ready', ''); //todo: get token link for survey
+                            //email.sendEmailMesg([rel.menteeemail], 'Your Odyssey Mentorship Survey Ready', 'email body');
+>>>>>>> cbc8a2a9dd12d389bfa904aa879f66f04f0fa876
 
                             //increment email count
                             db.incrimentRelationship(rel.relid, function(e, ret){

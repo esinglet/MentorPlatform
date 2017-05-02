@@ -270,7 +270,7 @@ module.exports = {
 	}, 
 
 	getAdmins: function(){
-		var qur = "select * from people where role = 2"
+		var qur = "select * from people where role = 2";
 		var p = new Promise(function(resolve, reject) {
 			qu(qur, [], function (err, ret) {
 				var dict = {};
@@ -284,19 +284,59 @@ module.exports = {
 			});
 		});
 		return p;
+	},
+
+	getSurvey: function(surveyId){
+		var qur = "select * from surveys where sid = ?;";
+		var p = new Promise(function(resolve, reject) {
+			qu(qur, [surveyId], function (err, ret) {
+				if (err) {
+					reject(err);
+				}
+				resolve(ret);
+			});
+		});
+		return p;
+	},
+
+	listSurveys: function(){
+		var qur = "select * from surveys";
+		var p = new Promise(function(resolve, reject) {
+			qu(qur, [], function (err, ret) {
+				if (err) {
+					reject(err);
+				}
+				resolve(ret);
+			});
+		});
+		return p;
+	},
+
+	createSurvey: function(sid, rid){
+		var qur = "insert into surveys values(?, ?, CURDATE());";
+		var p = new Promise(function(resolve, reject) {
+			qu(qur, [sid, rid], function (err, ret) {
+				if (err) {
+					reject(err);
+				}
+				resolve(ret);
+			});
+		});
+		return p;
 	}
+
 };
 
 
-var info = {
-	fname: "Evan",
-	lname: "Singleton",
-	email: "a@b.ca",
-	role: 3,
-	org: 5, 
-	admin: 11,
-
-}
+// var info = {
+// 	fname: "Evan",
+// 	lname: "Singleton",
+// 	email: "a@b.ca",
+// 	role: 3,
+// 	org: 5,
+// 	admin: 11,
+//
+// };
 
  //var res = module.exports.getAdmins();
  //	res.then(function(dict){
