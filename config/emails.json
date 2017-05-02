@@ -1,0 +1,5 @@
+{
+    "host":"localhost:3000",
+    "mentee_body":"Hey there! It looks like you're about ready to submit a mentorship survey. Click here to report feedback:",
+    "admin_body":""
+}

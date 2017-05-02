@@ -36,9 +36,8 @@ cron.schedule("1 17 20 * * *", function(){
                     if(testOverdue(rate, dif)){
                         try {
                             console.log("here");
-                            //Send email
-                            //email.sendEmailMesg([rel.email], 'Your Odyssey Mentorship Survey Ready', ''); //todo: get token link for survey
-                            //email.sendEmailMesg([rel.menteeemail], 'Your Odyssey Mentorship Survey Ready', 'email body');
+                            //Send email only mentee
+                            email.sendEmailMesg([rel.menteeemail], 'Your Odyssey Mentorship Survey Ready', 'email body');
 
                             //increment email count
                             db.incrimentRelationship(rel.relid, function(e, ret){
