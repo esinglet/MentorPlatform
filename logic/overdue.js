@@ -1,6 +1,7 @@
 var cron = require("node-cron");
 var db = require("../database/database.js");
 var email = require("./email");
+var config = require("../config/emails.json");
 
 //we expect rate to be rate*emails sent to ensure that emails are not sent everyday
 function testOverdue(rate, dif){
@@ -15,7 +16,7 @@ function testOverdue(rate, dif){
 
 //No leading zero, 
 //see: https://www.npmjs.com/package/node-cron
-cron.schedule("1 17 20 * * *", function(){
+cron.schedule("30 * * * * *", function(){
     db.getRelationships(function(err, data){
             if(err){
                 //Log error TODO
@@ -36,10 +37,7 @@ cron.schedule("1 17 20 * * *", function(){
                     if(testOverdue(rate, dif)){
                         try {
                             console.log("here");
-<<<<<<< HEAD
-                            //Send email only mentee
-                            email.sendEmailMesg([rel.menteeemail], 'Your Odyssey Mentorship Survey Ready', 'email body');
-=======
+
                             //Send email
                             db.createSurvey(email.generateEmailToken(),rel.relid).then(function(ret) {
                                 console.log('generate email token return: ',ret);
@@ -48,7 +46,7 @@ cron.schedule("1 17 20 * * *", function(){
                             });
                             //email.sendEmailMesg([rel.email], 'Your Odyssey Mentorship Survey Ready', ''); //todo: get token link for survey
                             //email.sendEmailMesg([rel.menteeemail], 'Your Odyssey Mentorship Survey Ready', 'email body');
->>>>>>> cbc8a2a9dd12d389bfa904aa879f66f04f0fa876
+
 
                             //increment email count
                             db.incrimentRelationship(rel.relid, function(e, ret){
