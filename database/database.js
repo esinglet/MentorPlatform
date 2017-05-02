@@ -342,4 +342,6 @@ module.exports = {
  //	res.then(function(dict){
 //		console.log( dict);
 //	});
-//module.exports.createPerson(info, function(err, res){if(err){console.log(err.message);return;}else{console.log(res)}});
+
+
+//module.exports.listSurveys().then(function(ret){console.log(ret);});

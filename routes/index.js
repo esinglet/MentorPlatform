@@ -135,20 +135,7 @@ module.exports = function (app, passport) {
         });
     });
 
-
-
-    app.get('/survey/:surveyId', function(req, res){
-        console.log(req.params.surveyId);
-        db.getSurvey(req.params.surveyId).then(function(survey){
-            console.log(survey);
-        }).catch(function(err){
-            throw err;
-        });
-    });
-
-
-    //===================old/ depreciated ===========================
-
+    //TODO: this should be removed. It's only for testing
     app.get('/survey/list', function(req, res){
         db.listSurveys().then(function(survey){
             console.log(survey);
@@ -157,6 +144,21 @@ module.exports = function (app, passport) {
             throw err;
         });
     });
+
+    app.get('/survey/:surveyId', function(req, res){
+        console.log(req.params.surveyId);
+        db.getSurvey(req.params.surveyId).then(function(survey){
+            console.log(survey);
+            res.render();
+        }).catch(function(err){
+            throw err;
+        });
+    });
+
+
+    //===================old/ depreciated ===========================
+
+
 
     //TODO: remove? remember to also remove the view
     app.get('/admin_panel', auth, function (req, res) {
