@@ -37,6 +37,11 @@ cron.schedule("1 17 20 * * *", function(){
                         try {
                             console.log("here");
                             //Send email
+                            db.createSurvey(email.generateEmailToken(),rel.relid).then(function(ret) {
+                                console.log('generate email token return: ',ret);
+                            }).catch(function(err){
+                                if (err){throw err;}
+                            });
                             //email.sendEmailMesg([rel.email], 'Your Odyssey Mentorship Survey Ready', ''); //todo: get token link for survey
                             //email.sendEmailMesg([rel.menteeemail], 'Your Odyssey Mentorship Survey Ready', 'email body');
 

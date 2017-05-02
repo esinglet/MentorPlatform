@@ -310,9 +310,20 @@ module.exports = {
 			});
 		});
 		return p;
-	}
+	},
 
-	createSurvey: function
+	createSurvey: function(sid, rid){
+		var qur = "insert into surveys values(?, ?, CURDATE());";
+		var p = new Promise(function(resolve, reject) {
+			qu(qur, [sid, rid], function (err, ret) {
+				if (err) {
+					reject(err);
+				}
+				resolve(ret);
+			});
+		});
+		return p;
+	}
 
 };
 
