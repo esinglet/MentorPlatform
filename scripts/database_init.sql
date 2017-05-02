@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `odyssey_dev`.`organizations` (
   `name` VARCHAR(250) NULL DEFAULT NULL,
   PRIMARY KEY (`orgid`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 11
+AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `odyssey_dev`.`people` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 51
+AUTO_INCREMENT = 54
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `odyssey_dev`.`relationships` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 14
+AUTO_INCREMENT = 15
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -121,6 +121,22 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
 
+-- -----------------------------------------------------
+-- Table `odyssey_dev`.`surveys`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `odyssey_dev`.`surveys` (
+  `sid` VARCHAR(100) NOT NULL,
+  `rid` INT(11) NULL DEFAULT NULL,
+  `date_sent` DATE NULL DEFAULT NULL,
+  PRIMARY KEY (`sid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+insert into lu_role (role_id, name) values(2, "admin");
+insert into lu_role (role_id, name) values(3, "mentor");
+insert into lu_role (role_id, name) values(4, "mentee");
