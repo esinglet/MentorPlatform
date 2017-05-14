@@ -16,6 +16,7 @@ function testOverdue(rate, dif){
 
 //No leading zero, 
 //see: https://www.npmjs.com/package/node-cron
+//executes 30 seconds past every minute
 cron.schedule("30 * * * * *", function(){
     db.getRelationships(function(err, data){
             if(err){
@@ -45,7 +46,7 @@ cron.schedule("30 * * * * *", function(){
                                 if (err){throw err;}
                             });
                             //email.sendEmailMesg([rel.email], 'Your Odyssey Mentorship Survey Ready', ''); //todo: get token link for survey
-                            //email.sendEmailMesg([rel.menteeemail], 'Your Odyssey Mentorship Survey Ready', 'email body');
+                            email.sendEmailMesg([rel.menteeemail], 'Your Odyssey Mentorship Survey Ready', 'email body');
 
 
                             //increment email count
@@ -58,7 +59,7 @@ cron.schedule("30 * * * * *", function(){
                             if ((rel.email_count+1)%3 === 0){
                                 let subject = `${rel.menteefname} ${rel.menteelname} is late with their Odyssey Mentorship Survey`;
                                 let body = `Someone is late with their Odyssey Mentorship Survey`;
-                                //email.sendEmailMesg([admins[rel.org].email], subject, body);
+                                email.sendEmailMesg([admins[rel.org].email], subject, body);
                             }
                         } catch (e){
                             //todo: any email errors should be handled here
