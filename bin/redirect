@@ -15,7 +15,8 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 
-app.get(/^(.*)$/, function(req, res){ 
+app.get(/^(.*)$/, function(req, res){
+    console.log('hit from '+ req);
     res.redirect("https://www.odysseymentorship.com");
 });
 
