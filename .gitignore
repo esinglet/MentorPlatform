@@ -2,4 +2,6 @@ node_modules/
 .idea/
 public/stylesheets/bootstrap_css/
 config/config.json
+config/privkey.pem
+config/server.crt
 .vscode/
