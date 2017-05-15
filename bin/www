@@ -13,13 +13,13 @@ var privateKey  = fs.readFileSync('./config/privkey.pem', 'utf8');
 var certificate = fs.readFileSync('./config/server.crt', 'utf8');
 console.log(privateKey);
 console.log(certificate); 
-var credentials = {key: privateKey, cert: certificate, passphrase:""};
+var credentials = {key: privateKey, cert: certificate};
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(443);
+var port = normalizePort(8443);
 app.set('port', port);
 
 /**
