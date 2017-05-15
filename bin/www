@@ -9,15 +9,17 @@ var debug = require('debug')('muchacha:server');
 var https = require('https');
 var fs = require('fs');
 
-var privateKey  = fs.readFileSync('../config/privkey.pem', 'utf8');
-var certificate = fs.readFileSync('../config/server.crt', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
+var privateKey  = fs.readFileSync('./config/privkey.pem', 'utf8');
+var certificate = fs.readFileSync('./config/server.crt', 'utf8');
+console.log(privateKey);
+console.log(certificate); 
+var credentials = {key: privateKey, cert: certificate, passphrase:""};
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(443);
 app.set('port', port);
 
 /**
