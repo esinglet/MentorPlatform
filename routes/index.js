@@ -25,8 +25,8 @@ module.exports = function (app, passport) {
     });
 
     app.post('/signup', passport.authenticate('signup', {
-        successRedirect: '/create',
-        failureRedirect: '/signupFail'
+        successRedirect: '/manage',
+        failureRedirect: '/'
     }));
 
     app.post('/login', passport.authenticate('login', {
