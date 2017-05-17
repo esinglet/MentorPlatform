@@ -11,8 +11,6 @@ var fs = require('fs');
 
 var privateKey  = fs.readFileSync('./config/privkey.pem', 'utf8');
 var certificate = fs.readFileSync('./config/server.crt', 'utf8');
-console.log(privateKey);
-console.log(certificate); 
 var credentials = {key: privateKey, cert: certificate};
 
 /**
