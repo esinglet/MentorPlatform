@@ -10,11 +10,13 @@ var session  = require('express-session');
 
 var app = express();
 
+
 app.use("/node_modules", express.static('node_modules'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'public/views'));
 app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

@@ -155,6 +155,10 @@ module.exports = function (app, passport) {
         });
     });
 
+    app.get('/test', function(req, res){
+        res.render('test.html');
+    });
+
 
     //===================old/ depreciated ===========================
 
@@ -168,5 +172,6 @@ module.exports = function (app, passport) {
     app.get("/create", function(req, res){
         res.render('Depreciated/add_user', { user: req.user });
     });
+
 
 };
