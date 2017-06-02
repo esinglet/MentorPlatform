@@ -155,9 +155,15 @@ module.exports = function (app, passport) {
         });
     });
 
-    app.get('/test', function(req, res){
-        res.render('test.html');
+    app.get("/relationships", function(req, res){
+        res.render("relationships.html");
     });
+
+    app.get("/persons", function(req, res){
+        res.render("people.html");
+    });
+
+
 
 
     //===================old/ depreciated ===========================

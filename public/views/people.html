@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<header>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href= "https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+</header>
+
+<body>
+
+    <div class="w3-sidebar w3-light-grey w3-card-4" style="width: 180px; display: block;" id="mySidebar">
+        <div class="w3-bar w3-dark-grey">
+            <span class="w3-bar-item w3-padding-16">Odyssey</span>
+        </div>
+        <div class="w3-bar-block">
+            <a class="w3-bar-item w3-button" style="background-color: #5bc0de;" href="javascript:void(0)">People</a>
+            <a class="w3-bar-item w3-button" href="/relationships">Relationships</a>
+            <a class="w3-bar-item w3-button" href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <table id="example" class="display" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>personid</th>
+                <th>fname</th>
+                <th>lname</th>
+                <th>email</th>
+                <th>role</th>
+                <th>active</th>
+                <th>admin</th>
+            </tr>
+        </thead>
+    </table>
+</body>
+<script type="text/javascript">
+ 
+$(document).ready(function() {
+    $('#example').DataTable({
+        "ajax": '/people',
+        "columns": [
+        { "data": "personid" },
+        { "data": "fname" },
+        { "data": "lname" },
+        { "data": "email" },
+        { "data": "role" },
+        { "data": "active" },
+        { "data": "admin" }
+    ]
+    });
+}); 
+
+</script>
+</html>
