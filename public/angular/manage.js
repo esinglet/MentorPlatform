@@ -4,7 +4,10 @@ $(document).ready(function(){
 
 		$('#pTable').DataTable( 
 			{
-				data:data,
+				ajax:{
+					url:"/GetOrgPeople",
+					type:"GET"
+				},
 				columns:[
 					{"data":"personid"},
 					{"data":"fname"},
