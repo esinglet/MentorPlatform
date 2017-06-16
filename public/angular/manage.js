@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-	$.get("/GetOrgPeople", function(data){
 
 		$('#pTable').DataTable( 
 			{
@@ -18,6 +17,4 @@ $(document).ready(function(){
 				]
 			} 
 		);
-		console.log(data);
-	});
 });
