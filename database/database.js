@@ -198,7 +198,7 @@ module.exports = {
 				console.log(err);
 				return callback(err, false);
 			}
-			return callback(false, rows);
+			return callback(false, {'data':rows});
 		});
 
 	},
