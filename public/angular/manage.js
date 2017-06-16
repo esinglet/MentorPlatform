@@ -25,6 +25,7 @@ $(document).ready(function(){
 					type:"GET",
 					dataSrc:''
 				},
+				//NEXT STEP: https://datatables.net/examples/api/row_details.html
 				columns:[
 					{"data":"relid"},
 					{"data":"fname"},
