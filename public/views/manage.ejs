@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +11,7 @@
 	<!--     <link rel="icon" href="../../favicon.ico"> -->
 	<title>Odyssey</title>
 	<!-- Bootstrap core CSS -->
-	<link rel="stylesheet" href="../stylesheets/bootstrap_css/bootstrap.min.css" >
+	<link rel="stylesheet" href="../stylesheets/bootstrap_css/bootstrap.min.css">
 
 	<!-- TODO: update these to be local-->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
@@ -23,61 +24,74 @@
 	<!--<script src="../../node_modules/angular-ui-grid/ui-grid.css"></script> TODO: put this back-->
 
 	<!--<link rel="stylesheet" href="https://ui-grid.info/release/ui-grid-unstable.css" type="text/css">-->
-	<link rel="stylesheet" href="../stylesheets/ui-grid-unstable.css" >
-	<link rel="stylesheet" href="../stylesheets/bootstrap_css/bootstrap.min.css" >
-
+	<link rel="stylesheet" href="../stylesheets/ui-grid-unstable.css">
+	<link rel="stylesheet" href="../stylesheets/bootstrap_css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script type="text/javascript" src="./angular/manage.js"></script>
 
 	<style>
+		td.details-control {
+			background: url('/images/plus.png') no-repeat center center;
+			cursor: pointer;
+		}
+
+		tr.shown td.details-control {
+			background: url('/images/minus.png') no-repeat center center;
+		}
+
 		body {
 			padding-top: 60px;
 		}
-		.col-centered{
+
+		.col-centered {
 			float: none;
 			margin: 0 auto;
 			text-align: center;
 		}
 
-		.frm-brd{
+		.frm-brd {
 			border-radius: 25px;
 			border: 2px solid #4d4d4d;
-			padding: 20px; 
+			padding: 20px;
 			width: 60%;
 			box-shadow: 10px 10px 5px #888888;
 		}
 
-		.c{
+		.c {
 			text-align: center;
 		}
 
-		.people-scroll{
+		.people-scroll {
 			overflow-y: scroll;
 			height: 100%;
 			list-style-type: none;
 		}
 
-		.person{
+		.person {
 			background-color: #50EBEC;
 			border: 1px solid black;
 		}
-		.login-text{
+
+		.login-text {
 			color: white;
 		}
-		
 	</style>
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
+	<!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
 </head>
+
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+				 aria-controls="navbar">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -88,59 +102,62 @@
 
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-				<li class="active"><a href="/manage">Manage</a></li>
-				<li><a href="/test_mentorSurvey">Test_Survey</a></li>
+					<li class="active"><a href="/manage">Manage</a></li>
+					<li><a href="/test_mentorSurvey">Test_Survey</a></li>
 				</ul>
 				<div>
-					<h4 class="navbar-right login-text"><%= user.fname+' '+user.lname %><a href="/logout"> (Logout)</a></h4>
+					<h4 class="navbar-right login-text">
+						<%= user.fname+' '+user.lname %><a href="/logout"> (Logout)</a></h4>
 				</div>
 			</div>
 		</div>
-	</nav> 
+	</nav>
 	<div class="container">
 
 
-<table id="pTable" class="display" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>Person ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>eMail</th>
-                <th>Role</th>
-                <th>Active</th>
-            </tr>
-        </thead>
+		<table id="pTable" class="display" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Person ID</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>eMail</th>
+					<th>Role</th>
+					<th>Active</th>
+				</tr>
+			</thead>
 
-        <tfoot>
-            <tr>
-                <th>Person ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>eMail</th>
-                <th>Role</th>
-                <th>Active</th>
-            </tr>
-        </tfoot>
-    </table>
+			<tfoot>
+				<tr>
+					<th>Person ID</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>eMail</th>
+					<th>Role</th>
+					<th>Active</th>
+				</tr>
+			</tfoot>
+		</table>
 
-	<table id="rTable" class="display" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>Relationship ID</th>
-                <th>Mentor</th>
-                <th>Mentee</th>
-            </tr>
-        </thead>
+		<table id="rTable" class="display" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Relationship ID</th>
+					<th>Mentor</th>
+					<th>Mentee</th>
+				</tr>
+			</thead>
 
-        <tfoot>
-            <tr>
-                <th>Relationship ID</th>
-                <th>Mentor</th>
-                <th>Mentee</th>
-            </tr>
-        </tfoot>
-    </table>
+			<tfoot>
+				<tr>
+
+					<th>Relationship ID</th>
+					<th>Mentor</th>
+					<th>Mentee</th>
+				</tr>
+			</tfoot>
+		</table>
 
 
 		<footer>
@@ -148,20 +165,25 @@
 				<p>&copy; 2017 Odyssey, Inc.</p>
 			</dir>
 		</footer>
-	</div> <!-- /container -->
+	</div>
+	<!-- /container -->
 
 
-<!-- Bootstrap core JavaScript
+	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<!--as of march 21, this is only here for the accordian views-->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-<!-- <script src="../dist/js/bootstrap.min.js"></script>
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+	<script>
+		window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
+	</script>
+	<!-- <script src="../dist/js/bootstrap.min.js"></script>
 IE10 viewport hack for Surface/desktop Windows 8 bug
 <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="./angular/manage.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	 crossorigin="anonymous"></script>
+	<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+	<!--<script type="text/javascript" src="./angular/manage.js"></script>-->
 </body>
+
 </html>
