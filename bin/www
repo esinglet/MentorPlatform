@@ -6,6 +6,10 @@
 
 var app = require('../app');
 var debug = require('debug')('muchacha:server');
+
+//TODO remove non secure local
+var http = require('http');
+
 var https = require('https');
 var fs = require('fs');
 
@@ -17,14 +21,21 @@ var credentials = {key: privateKey, cert: certificate};
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(443);
+//TODO remove non secure local
+var port = normalizePort(3000);
+
+//var port = normalizePort(443);
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = https.createServer(credentials, app);
+//TODO remove non secure local
+var server = http.createServer(app);
+
+
+//var server = https.createServer(credentials, app);
 
 /**
  * Listen on provided port, on all network interfaces.
