@@ -26,6 +26,7 @@ $(document).ready(function () {
 				dataSrc: ''
 			},
 			//NEXT STEP: https://datatables.net/examples/api/row_details.html 
+			//NEXT STEP: https://datatables.net/plug-ins/pagination/scrolling
 			columns: [
 				{
 					"className": 'details-control',
